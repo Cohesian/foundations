@@ -161,31 +161,41 @@ They are ways of seeing.
 
 ## Repository structure
 
-Each exploration usually lives in its own directory.
+Most explorations are written as Markdown files. Some may include companion Jupyter notebooks for computation, visualization, and experimentation.
 
-A typical directory may look like this:
+A typical structure may look like this:
 
     foundations/
-      exponential-ladder/
-        paper.md
-        notebook.ipynb
+      README.md
+      INDEX.md
+
+      topic/
         README.md
+        INDEX.md
 
-      function-composition/
-        paper.md
-        notebook.ipynb
-        README.md
+        subtopic-1/
+          README.md
+          INDEX.md
+          subtopic-1.md
+          subtopic-1.ipynb
 
-      sparse-ticker/
-        paper.md
-        notebook.ipynb
-        README.md
+        subtopic-2/
+          README.md
+          INDEX.md
+          subtopic-2.md
+          subtopic-2.ipynb
 
-The exact structure may evolve, but the intention is simple:
+        subtopic-n/
+          README.md
+          INDEX.md
+          subtopic-n.md
+          subtopic-n.ipynb
 
-- `paper.md` contains the written explanation.
-- `notebook.ipynb` contains executable examples, visualizations, and experiments.
-- `README.md` may summarize the local topic when needed.
+`README.md` describes the current node.
+
+`INDEX.md` maps the children at that level.
+
+Regular directories and files use lowercase words separated by hyphens (kebab-case).
 
 ---
 
@@ -279,21 +289,29 @@ A notebook can reveal structure that is hard to see in static text.
 
 ## Naming conventions
 
-The general convention is to use lowercase words separated by hyphens (kebab-case).
+The general convention for explorations is to use lowercase words separated by hyphens (kebab-case).
 
 Examples:
 
-Directories
-- `exponential-ladder`
-- `function-composition`
-- `sparse-ticker`
+Directories:
+- `explorations/`
+- `exponential-ladders/`
+- `functions/`
+- `sparse-ticker-state/`
 
 Files:
-- `paper.md`
+- `exponential-ladder.md`
+- `function-composition.md`
+- `sparse-ticker-state.ipynb`
 - `carbon-binder.md`
-- `notebook.ipynb`
 
-This keeps each exploration consistent and easy to navigate.
+Special repository and navigation files may use uppercase names:
+
+- `README.md` describes the current node.
+- `INDEX.md` maps the children at that level.
+- `LICENSE`, `NOTICE`, and `ATTRIBUTION.md` follow common repository conventions.
+
+This keeps regular explorations consistent while allowing structural files to act as navigation nodes.
 
 ---
 
