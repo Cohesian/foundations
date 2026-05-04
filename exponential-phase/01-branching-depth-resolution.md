@@ -3,7 +3,6 @@
 > `b` is the branching factor.
 > We keep `b` fixed and change the exponent in order to inspect depth with different rulers.
 
-This note is the first actual paper of the [Exponential Phase track](00-index.md).
 The goal here is to go slowly.
 
 We will not try to explain everything at once.
