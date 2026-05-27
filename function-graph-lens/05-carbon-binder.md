@@ -183,7 +183,8 @@ This binder note sits beside the function notes, but it is more general:
 - [03-function-network.md](03-function-network.md): one graph relating many nodes
 - [04-function-natural-wrappers.md](04-function-natural-wrappers.md): functions as natural wrappers
 
-Two binder specializations follow:
+Several domain specializations follow:
 
 - [06-type-binder.md](06-type-binder.md): `T` as a binder for a type system
 - [07-query-binder.md](07-query-binder.md): `Q` as a binder for query structure
+- [08-tlf-composite.md](08-tlf-composite.md): `K` as a corpus composite with traversal overlays
