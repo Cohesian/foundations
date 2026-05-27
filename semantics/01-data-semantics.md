@@ -57,6 +57,19 @@ root
 The tree is the semantic object.
 The concrete language is only one way to write it down.
 
+### Data Packets As Carriers
+
+In the [function graph lens](../function-graph-lens/01-function.md#2-ports-and-packets), a packet is the value that travels through ports and between executable nodes.
+
+Data semantics describes one important way to understand what such a packet may contain.
+A packet may carry a leaf, tuple, record, array, object, table row, API response, document, or any nested composite tree.
+
+So the packet belongs to the execution or network view.
+The semantic tree belongs to the data-shape view.
+
+This distinction matters because two functions may both exchange packets while expecting different semantic shapes.
+In that case, validation, projection, serialization, deserialization, or adapter logic can be understood as changing the packet's representation or shape while preserving enough meaning for the next boundary.
+
 ---
 
 ## 2. Leaves

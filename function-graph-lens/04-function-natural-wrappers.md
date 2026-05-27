@@ -185,6 +185,7 @@ This is close to a composite / decorator style build-up:
 - the chain is glued at build-up time
 
 The glue is the shared interface plus a packet shape broad enough to cross all stages.
+For structured data packets, that shared shape can be described through a [semantic tree](../semantics/01-data-semantics.md#data-packets-as-carriers).
 
 This often keeps local wrappers smaller, because the path is assembled in build-up time instead of being fully centralized in one large outer function.
 

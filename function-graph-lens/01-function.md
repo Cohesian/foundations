@@ -35,6 +35,13 @@ $$
 and it remains a packet wherever it travels.
 It does not become a different kind of thing by approaching an input port or leaving through an output port.
 
+Here `packet` is intentionally abstract.
+It may be a scalar, tuple, record, object, nested document, serialized blob, message, API response, or any other carried value.
+
+When the packet is a data packet carrying structured data, its inner shape can be read through [data semantics](../semantics/01-data-semantics.md#data-packets-as-carriers).
+The packet is the traveling carrier.
+The semantic tree is the shape of the data being carried.
+
 What changes is not the packet, but the orientation of the port relative to the node.
 
 Each function owns two local ports:
