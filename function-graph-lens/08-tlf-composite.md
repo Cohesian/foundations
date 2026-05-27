@@ -4,6 +4,13 @@
 > The grouping edges give the shape.
 > Linear and related edges are overlays on the same fixed nodes.
 
+TLF means **Topic / Lecture / File**.
+It is a composite pattern for distributing knowledge through a filesystem-like structure.
+
+A topic usually groups lectures, and lectures usually group files.
+But this is only the common reading, not a strict layer rule.
+The deeper rule is composite: topics and lectures are both grouping nodes, so they may contain many valid mixtures of topics, lectures, and files.
+
 ## 1. Corpus Assignment
 
 Let:
