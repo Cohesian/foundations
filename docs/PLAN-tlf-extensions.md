@@ -43,8 +43,10 @@ description: string
 kind: T | L | F | Fd
 edges:
   g: []    # grouping — ordered children (composites only)
-  l: []    # linear — prev/next chain (same-type targets only)
-  r: []    # related — non-linear links (same-type targets only)
+  l:       # linear — $E_l$ as prev / next (same-type only)
+    prev: null
+    next: null
+  r: []    # related — same-type targets only
 ```
 
 ### Where props live
@@ -71,38 +73,39 @@ F-04 defines three edge families on the corpus graph: **g** (grouping), **l** (l
 
 Original F-04 restricts **l** and **r** to **file → file** (`F × F`). We keep that for files, and **add same-kind edges for composites**:
 
-| Kind | `edges.g` | `edges.l` targets | `edges.r` targets |
-|------|-----------|-------------------|-------------------|
-| **T** | ordered `T-*`, `L-*`, `F-*`, `Fd-*` children | other **T** nodes | other **T** nodes |
-| **L** | ordered children under this lecture | other **L** nodes | other **L** nodes |
-| **F** / **Fd** | *(none)* | other **F** / **Fd** | other **F** / **Fd** |
+| Kind | `edges.g` | `l.next` / `l.prev` | `edges.r` |
+|------|-----------|---------------------|-----------|
+| **T** | ordered children | other **T** (path from `T-knowledge/`) | other **T** |
+| **L** | ordered children | other **L** | other **L** |
+| **F** / **Fd** | *(none)* | sibling **F** / **Fd** basename | **F** / **Fd** |
 
 **Explicit constraints (v1 — intentional simplification)**
 
 - **No cross-kind `l` / `r`** for now (e.g. a topic cannot `l`-link to a lecture or file). Cross-scope references stay future work.
 - **g** remains the only edge that defines containment; **l** / **r** are overlays (F-04 stability law still applies).
 - **`Fd`** is the same leaf class as **`F`** for edge typing; `kind: Fd` marks draft maturity only.
+- **`l`** is always `{ next, prev }`; use `null` when a direction is absent.
 
-**Reference format for `l` / `r` entries:** path relative to **`T-knowledge/`**, no leading slash.
+**Reference format:** composite `l` / `r` use paths relative to **`T-knowledge/`**. File `l.next` / `l.prev` use sibling basenames in the same lecture.
 
 ```yaml
-# T-math/props.yaml
+# T-math/props.yaml — related topic (r), no linear chain yet
 edges:
   l:
-    - T-computer-science/L-functions   # invalid in v1 — cross T→L; don't do this
+    prev: null
+    next: null
   r:
-    - T-computer-science               # ok: T → T
+    - T-computer-science
 ```
 
 ```yaml
-# L-functions/props.yaml (under T-computer-science/)
+# L-functions/props.yaml — linear to sibling lecture (example)
 edges:
   l:
-    - ../L-composite                   # ok: L → L (sibling)
+    prev: null
+    next: ../L-composite
   r: []
 ```
-
-Use **stable paths from `T-knowledge/`** where possible (e.g. `T-computer-science/L-composite`) to avoid ambiguity.
 
 ---
 
@@ -118,7 +121,9 @@ edges:
   g:
     - T-math
     - T-computer-science
-  l: []
+  l:
+    prev: null
+    next: null
   r: []
 ```
 
@@ -130,12 +135,13 @@ description: Mathematical explorations.
 kind: T
 edges:
   g:
+    - L-division
     - L-exponential-phase
     - T-linear-algebra
-    - L-division
-  l: []
-  r:
-    - T-computer-science
+  l:
+    prev: null
+    next: null
+  r: []
 ```
 
 ### `T-knowledge/T-computer-science/L-functions/F-01-function.md`
@@ -148,16 +154,15 @@ kind: F
 edges:
   g: []
   l:
-    - F-02-execution.md
+    prev: null
+    next: F-02-execution.md
   r: []
 ---
 # Functions
 …
 ```
 
-For **linear chains on files**, list **forward** neighbor(s) in `l` (or agree convention: `l: [next]` only — document one convention in CORPUS).
-
-**Recommendation:** `l` holds **next** node id(s); backward link is optional duplication or derived by tooling.
+Linear chains on files: set **`l.next`** and **`l.prev`** from the lecture’s `edges.g` order (including `Fd` leaves).
 
 ---
 

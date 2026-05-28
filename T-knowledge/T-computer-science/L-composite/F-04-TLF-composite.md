@@ -1,3 +1,15 @@
+---
+title: TLF Composite
+description: Topic / Lecture / File composite pattern for a knowledge corpus.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-03-query-binder.md
+    next: null
+  r: []
+---
+
 # TLF Composite
 
 > `TLF` is a labeled composite pattern for a corpus.

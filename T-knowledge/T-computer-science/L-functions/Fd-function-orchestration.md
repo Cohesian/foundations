@@ -1,3 +1,15 @@
+---
+title: Function Orchestration
+description: Internal process coordination behind a function boundary (draft).
+kind: Fd
+edges:
+  g: []
+  l:
+    prev: F-04-function-natural-wrappers.md
+    next: null
+  r: []
+---
+
 # Function Orchestration
 
 > A function may expose only a boundary from the outside, while internally coordinating a whole process.

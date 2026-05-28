@@ -5,5 +5,7 @@ edges:
   g:
     - T-math
     - T-computer-science
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

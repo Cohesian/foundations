@@ -1,3 +1,15 @@
+---
+title: Query Binder
+description: Query structure as a binder specialization.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-02-type-binder.md
+    next: F-04-TLF-composite.md
+  r: []
+---
+
 # Query Binder
 
 > `Q` is another specialization of the binder pattern.

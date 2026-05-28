@@ -1,3 +1,15 @@
+---
+title: Function Network
+description: Pipelines, wrappers, and functions as graph structure.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-02-execution.md
+    next: F-04-function-natural-wrappers.md
+  r: []
+---
+
 # Function Network
 
 > Once functions are seen as nodes, composition becomes graph structure.

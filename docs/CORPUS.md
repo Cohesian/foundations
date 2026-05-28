@@ -57,7 +57,9 @@ description: string
 kind: T | L | F | Fd
 edges:
   g: []    # grouping — ordered direct children (composites only)
-  l: []    # linear — same-type targets only
+  l:       # linear — $E_l$ as prev / next (same-type targets only)
+    prev: null
+    next: null
   r: []    # related — same-type targets only
 ```
 
@@ -75,17 +77,25 @@ Lists **direct children** in the order you want them shown or read — basenames
 
 ### `edges.l` and `edges.r` (TLF+)
 
-F-04 defines linear and related edges on **files only**. TLF+ adds **same-kind** `l` / `r` for composites:
+F-04 defines linear and related edges on **files only**. TLF+ adds **same-kind** `l` / `r` for composites.
 
-| Kind | `edges.g` | `edges.l` / `edges.r` targets |
-|------|-----------|-------------------------------|
-| **T** | ✓ | other **T** nodes |
-| **L** | ✓ | other **L** nodes |
-| **F** / **Fd** | ✗ | other **F** / **Fd** |
+**Linear (`l`)** is always a **pair** — not a list:
+
+```yaml
+l:
+  next: …   # forward neighbor along $E_l$; null if none
+  prev: …   # backward neighbor; null if none
+```
+
+| Kind | `edges.g` | `l.next` / `l.prev` targets | `edges.r` |
+|------|-----------|-----------------------------|-----------|
+| **T** | ✓ | other **T** nodes (paths from `T-knowledge/`) | other **T** |
+| **L** | ✓ | other **L** nodes | other **L** |
+| **F** / **Fd** | ✗ | sibling **F** / **Fd** basenames in the same lecture | **F** / **Fd** |
 
 **v1 constraint:** no cross-kind links (e.g. no `T → L` or `T → F` in `l` / `r` yet).
 
-References in `l` / `r` use paths **relative to `T-knowledge/`** (e.g. `T-computer-science/L-composite`). For file chains, `l` lists **next** neighbor(s) — often a sibling basename such as `F-02-execution.md`.
+On **files**, `next` / `prev` are usually basenames in the same directory (e.g. `F-02-execution.md`). Use `null` when there is no neighbor. Draft leaves (`Fd`) participate in the same chains as `F`.
 
 Changing props or frontmatter does **not** change filesystem grouping (F-04 stability law).
 
@@ -106,7 +116,9 @@ edges:
     - L-inference
     - L-semantics
     - T-mechanics
-  l: []
+  l:
+    prev: null
+    next: null
   r: []
 ```
 
@@ -118,20 +130,21 @@ edges:
 
 ```yaml
 ---
-title: Functions
-description: One lens on functions as bounded executable nodes.
+title: Execution
+description: Execution as the interface admitting many executable forms.
 kind: F
 edges:
   g: []
   l:
-    - F-02-execution.md
+    prev: F-01-function.md
+    next: F-03-function-network.md
   r: []
 ---
-# Functions
+# Execution
 …
 ```
 
-Numeric `F-01-` prefixes remain optional; `edges.l` can define reading sequence without renaming files.
+Numeric `F-01-` prefixes remain optional; `edges.l.next` / `edges.l.prev` define reading sequence without renaming files.
 
 ---
 

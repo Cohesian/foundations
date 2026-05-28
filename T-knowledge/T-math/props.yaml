@@ -6,5 +6,7 @@ edges:
     - L-division
     - L-exponential-phase
     - T-linear-algebra
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

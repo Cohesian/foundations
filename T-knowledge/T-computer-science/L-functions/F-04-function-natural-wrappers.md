@@ -1,3 +1,15 @@
+---
+title: Function Natural Wrappers
+description: Natural wrappers as reusable function boundaries.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-03-function-network.md
+    next: Fd-function-orchestration.md
+  r: []
+---
+
 # Function Natural Wrappers
 
 > A function is already a natural wrapper because it owns a hidden process inside a visible boundary.

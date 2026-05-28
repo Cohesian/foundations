@@ -6,5 +6,7 @@ edges:
     - F-01-theorem.md
     - F-02-agents.md
     - F-03-conclusions.md
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

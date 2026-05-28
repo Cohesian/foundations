@@ -8,5 +8,7 @@ edges:
     - F-03-function-network.md
     - F-04-function-natural-wrappers.md
     - Fd-function-orchestration.md
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

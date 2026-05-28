@@ -1,3 +1,15 @@
+---
+title: Execution
+description: Execution as the interface admitting many executable forms.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-01-function.md
+    next: F-03-function-network.md
+  r: []
+---
+
 # Execution
 
 > If the function is one concrete executable form, execution is the wider interface that lets many forms belong to the same structural system.

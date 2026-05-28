@@ -1,3 +1,15 @@
+---
+title: Carbon Binder
+description: A common binder interface that generates many structures.
+kind: F
+edges:
+  g: []
+  l:
+    prev: null
+    next: F-02-type-binder.md
+  r: []
+---
+
 # Carbon Binder
 
 > `C` denotes a common binder interface.

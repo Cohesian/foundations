@@ -4,5 +4,7 @@ kind: T
 edges:
   g:
     - L-sparse-ticker-state
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

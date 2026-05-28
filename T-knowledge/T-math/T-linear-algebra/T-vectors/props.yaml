@@ -5,5 +5,7 @@ edges:
   g:
     - L-basis
     - L-reflection
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

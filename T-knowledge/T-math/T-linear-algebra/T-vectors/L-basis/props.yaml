@@ -4,5 +4,7 @@ kind: L
 edges:
   g:
     - F-01-introduction.md
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

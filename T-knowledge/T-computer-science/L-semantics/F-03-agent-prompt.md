@@ -1,3 +1,15 @@
+---
+title: Semantic Data Packets
+description: Agent prompts and semantic data packets.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-02-json-representation.md
+    next: null
+  r: []
+---
+
 # Semantic Data Packets
 
 This note is an agent-facing digest of the semantics topic.

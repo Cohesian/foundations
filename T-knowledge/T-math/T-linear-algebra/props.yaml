@@ -4,5 +4,7 @@ kind: T
 edges:
   g:
     - T-vectors
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

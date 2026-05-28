@@ -7,5 +7,7 @@ edges:
     - F-02-type-binder.md
     - F-03-query-binder.md
     - F-04-TLF-composite.md
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

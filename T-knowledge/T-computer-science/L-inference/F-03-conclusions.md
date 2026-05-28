@@ -1,3 +1,15 @@
+---
+title: Conclusions
+description: Conclusions from the inference exploration.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-02-agents.md
+    next: null
+  r: []
+---
+
 # Conclusions
 
 This work can be seen as a bridge between induction and automation.

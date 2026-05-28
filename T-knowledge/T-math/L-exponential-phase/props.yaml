@@ -7,5 +7,7 @@ edges:
     - F-02-discrete-phase-rulers.md
     - F-03-hidden-generators.md
     - Fd-exponential-phase-visual-notebook.ipynb
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

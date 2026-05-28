@@ -8,5 +8,7 @@ edges:
     - L-inference
     - L-semantics
     - T-mechanics
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

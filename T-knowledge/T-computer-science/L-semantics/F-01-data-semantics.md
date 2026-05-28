@@ -1,3 +1,15 @@
+---
+title: Data Semantics
+description: Composite tree shape of data before file format.
+kind: F
+edges:
+  g: []
+  l:
+    prev: null
+    next: F-02-json-representation.md
+  r: []
+---
+
 # Data Semantics
 
 Data has a natural shape before it has a file format.

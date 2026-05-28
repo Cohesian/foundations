@@ -6,5 +6,7 @@ edges:
     - F-01-data-semantics.md
     - F-02-json-representation.md
     - F-03-agent-prompt.md
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

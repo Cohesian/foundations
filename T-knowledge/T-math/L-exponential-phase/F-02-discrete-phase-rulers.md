@@ -1,3 +1,15 @@
+---
+title: Discrete Phase Rulers
+description: Phase rulers that inspect coarse exponential jumps without changing the base.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-01-branching-depth-resolution.md
+    next: F-03-hidden-generators.md
+  r: []
+---
+
 # Discrete Phase Rulers
 
 > A phase ruler does not change the base.

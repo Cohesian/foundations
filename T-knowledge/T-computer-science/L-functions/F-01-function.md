@@ -1,3 +1,15 @@
+---
+title: Functions
+description: One lens on functions as bounded executable nodes.
+kind: F
+edges:
+  g: []
+  l:
+    prev: null
+    next: F-02-execution.md
+  r: []
+---
+
 # Functions
 
 > This is only one way to see a function.

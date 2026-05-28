@@ -5,5 +5,7 @@ edges:
   g:
     - F-sparse_ticker_state_ledger.md
     - Fd-sparse_ticker_state_ledger.ipynb
-  l: []
+  l:
+    prev: null
+    next: null
   r: []

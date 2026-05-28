@@ -1,3 +1,15 @@
+---
+title: JSON Representation
+description: JSON as a representation layer for semantic data.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-01-data-semantics.md
+    next: F-03-agent-prompt.md
+  r: []
+---
+
 # JSON Representation
 
 The semantic tree can be represented in many languages.

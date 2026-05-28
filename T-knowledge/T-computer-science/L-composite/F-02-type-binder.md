@@ -1,3 +1,15 @@
+---
+title: Type Binder
+description: Types as a composite binder surface.
+kind: F
+edges:
+  g: []
+  l:
+    prev: F-01-carbon-binder.md
+    next: F-03-query-binder.md
+  r: []
+---
+
 # Type Binder
 
 > `T` is the binder for a type universe.
