@@ -2,7 +2,7 @@
 
 How the **foundations** repository organizes explorations on disk.
 
-The corpus uses **TLF** — **Topic / Lecture / File** — a labeled composite pattern for knowledge. The formal (filesystem-agnostic) model is in [F-04-TLF-composite.md](../T-knowledge/T-computer-science/L-composite/F-04-TLF-composite.md). **This document** is the **disk realization** for **foundations**: `T-knowledge/` root, `props.yaml`, frontmatter, and **TLF+** edge constraints. Rollout plan: [PLAN-tlf-extensions.md](PLAN-tlf-extensions.md).
+The corpus uses **TLF** — **Topic / Lecture / File** — a labeled composite pattern for knowledge. The formal (filesystem-agnostic) model is in [F-04-TLF-composite.md](../T-knowledge/T-computer-science/L-composite/F-04-TLF-composite.md). **This document** is the **disk realization** for **foundations**: `T-knowledge/` root, `props.yaml`, frontmatter, and **TLF+** edge constraints.
 
 ---
 

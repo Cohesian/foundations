@@ -22,7 +22,6 @@ Project docs live in **[docs/](docs/)** (repo metadata, not TLF corpus leaves):
 |------|----------|
 | [docs/COHESIAN.md](docs/COHESIAN.md) | What Cohesian is — themes, questions, lenses |
 | [docs/CORPUS.md](docs/CORPUS.md) | TLF+ layout — `T-knowledge/`, `props.yaml`, frontmatter, edges |
-| [docs/PLAN-tlf-extensions.md](docs/PLAN-tlf-extensions.md) | TLF+ rollout plan |
 | [docs/EXPLORATIONS.md](docs/EXPLORATIONS.md) | Index of topics and leaves with links |
 | [docs/PRINCIPLES.md](docs/PRINCIPLES.md) | How explorations are written |
 | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | How to contribute; AI-assisted workflow |
