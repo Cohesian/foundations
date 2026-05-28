@@ -1,0 +1,8 @@
+title: Basis
+description: Basis and coordinates (in development).
+kind: L
+edges:
+  g:
+    - F-01-introduction.md
+  l: []
+  r: []

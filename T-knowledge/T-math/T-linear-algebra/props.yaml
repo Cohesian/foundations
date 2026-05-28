@@ -1,0 +1,8 @@
+title: Linear algebra
+description: Vector spaces, bases, and related structure.
+kind: T
+edges:
+  g:
+    - T-vectors
+  l: []
+  r: []

@@ -1,0 +1,9 @@
+title: Knowledge
+description: Root topic for the foundations TLF corpus.
+kind: T
+edges:
+  g:
+    - T-math
+    - T-computer-science
+  l: []
+  r: []
