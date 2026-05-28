@@ -2,73 +2,158 @@
 
 How the **foundations** repository organizes explorations on disk.
 
-The corpus uses **TLF** — **Topic / Lecture / File** — a labeled composite pattern for knowledge. The formal model (grouping vs linear vs related edges, projections, and laws) is in [F-04-TLF-composite.md](../T-computer-science/L-composite/F-04-TLF-composite.md).
+The corpus uses **TLF** — **Topic / Lecture / File** — a labeled composite pattern for knowledge. The formal model is in [F-04-TLF-composite.md](../T-computer-science/L-composite/F-04-TLF-composite.md). This document adds **TLF+** conventions: `T-knowledge/` root, `props.yaml`, leaf frontmatter, and extended edge rules. Full rollout plan: [PLAN-tlf-extensions.md](PLAN-tlf-extensions.md).
+
+---
+
+## Corpus root
+
+All exploration content lives under **`T-knowledge/`** — a top-level topic that acts as the TLF root ρ.
+
+Repo metadata (`README.md`, `docs/`, `LICENSE`, …) stays **outside** the corpus tree.
+
+```text
+foundations/
+  README.md
+  docs/
+  T-knowledge/                  ← TLF root ρ
+    props.yaml
+    T-math/
+      props.yaml
+      L-exponential-phase/
+        props.yaml
+        F-01-branching-depth-resolution.md
+        …
+    T-computer-science/
+      …
+```
+
+> **Migration note:** topics currently at the repository root will move under `T-knowledge/` in a later commit. Paths in this doc describe the target layout.
+
+[README.md](../README.md) at the repository root is the public entry point. There is no `INDEX.md` layer — navigation follows the TLF tree plus `props.yaml` ordering.
 
 ---
 
 ## Node kinds
 
-- **Topics (`T`)** and **lectures (`L`)** are **composites** (directories). Either may contain topics, lectures, or files in any mixture. There is no required chain `T → L → F`; grouping is a tree (or forest) of containment.
-- **Files (`F`)** are **leaves** (readable content): papers, notes, and production notebooks.
-- **Draft files (`Fd`)** are the same role as `F`, marked as work in progress — useful when material should stay in the repo but is not ready for production reading.
+| Kind | Role | On disk |
+|------|------|---------|
+| `T` | Topic (composite) | Directory `T-<slug>/` |
+| `L` | Lecture (composite) | Directory `L-<slug>/` |
+| `F` | File (leaf, production) | File `F-<slug>.<ext>` |
+| `Fd` | File (leaf, draft) | File `Fd-<slug>.<ext>` |
 
-The filesystem path is the structural index: directories define grouping; filenames declare node kind.
-
-[README.md](../README.md) at the repository root is the public entry point. Exploration content lives under `T-*` topics. There is no separate `INDEX.md` layer — navigation follows the TLF tree.
-
----
-
-## Typical layout
-
-    foundations/
-      README.md
-      docs/
-        CORPUS.md
-        …
-
-      T-math/
-        L-exponential-phase/
-          F-01-branching-depth-resolution.md
-          F-02-discrete-phase-rulers.md
-          F-03-hidden-generators.md
-          Fd-exponential-phase-visual-notebook.ipynb
-        T-linear-algebra/
-          T-vectors/
-            L-basis/
-              F-01-introduction.md
-
-      T-computer-science/
-        L-functions/
-          F-01-function.md
-          Fd-function-orchestration.md
-        L-composite/
-          F-04-TLF-composite.md
-        T-mechanics/
-          L-sparse-ticker-state/
-            F-sparse_ticker_state_ledger.md
-            Fd-sparse_ticker_state_ledger.ipynb
+- **Composites** (`T`, `L`) may nest any mixture of `T`, `L`, `F`, and `Fd`. There is no required chain `T → L → F`.
+- **Leaves** (`F`, `Fd`) carry readable content and do not contain other corpus nodes.
+- The **filesystem path** defines grouping ($E_g$); **props** declare preferred child order and traversal overlays.
 
 ---
 
-## Naming conventions
+## Node props (all nodes)
 
-Explorations follow **TLF prefixes** on disk. The prefix encodes node kind; the slug after it describes the content (usually kebab-case; some legacy slugs use underscores).
+Every node uses the same semantic shape — stored in **`props.yaml`** (composites) or YAML **frontmatter** (leaves):
 
-| Kind | Role | On disk | Example |
-|------|------|---------|---------|
-| `T` | Topic (composite) | Directory `T-<slug>/` | `T-math/`, `T-linear-algebra/` |
-| `L` | Lecture (composite) | Directory `L-<slug>/` | `L-exponential-phase/`, `L-functions/` |
-| `F` | File (leaf, production) | File `F-<slug>.<ext>` | `F-01-function.md`, `F-sparse_ticker_state_ledger.md` |
-| `Fd` | File (leaf, draft) | File `Fd-<slug>.<ext>` | `Fd-function-orchestration.md`, `Fd-sparse_ticker_state_ledger.ipynb` |
+```yaml
+title: string
+description: string
+kind: T | L | F | Fd
+edges:
+  g: []    # grouping — ordered direct children (composites only)
+  l: []    # linear — same-type targets only
+  r: []    # related — same-type targets only
+```
 
-**Composites** (`T`, `L`) may nest any combination of `T`, `L`, and `F` / `Fd` children. **Leaves** (`F`, `Fd`) do not contain other corpus nodes.
+| Node | Storage |
+|------|---------|
+| Composite `T`, `L` | `props.yaml` at the directory root |
+| Leaf `F`, `Fd` | YAML frontmatter at the top of the file (`.md`; notebooks later) |
 
-Within a lecture, ordered papers often use a numeric segment after `F-` (for example `F-01-…`, `F-02-…`) to suggest a default reading sequence. That order is a traversal hint on leaves; it does not change the grouping tree.
+### `edges.g` (grouping order)
 
-**Repository metadata** (not TLF corpus nodes) keeps conventional names:
+Lists **direct children** in the order you want them shown or read — basenames only (e.g. `L-functions`, `F-01-function.md`).
 
-- `README.md` — entry point at the repository root (renders on GitHub)
-- `docs/` — internal project documentation ([COHESIAN](COHESIAN.md), [CORPUS](CORPUS.md), [EXPLORATIONS](EXPLORATIONS.md), [PRINCIPLES](PRINCIPLES.md), [CONTRIBUTING](CONTRIBUTING.md))
+- Does **not** move files on disk; it overrides naive alphanumeric sort.
+- A generator command can seed `edges.g` from directory listings; you reorder by hand for pedagogy.
+
+### `edges.l` and `edges.r` (TLF+)
+
+F-04 defines linear and related edges on **files only**. TLF+ adds **same-kind** `l` / `r` for composites:
+
+| Kind | `edges.g` | `edges.l` / `edges.r` targets |
+|------|-----------|-------------------------------|
+| **T** | ✓ | other **T** nodes |
+| **L** | ✓ | other **L** nodes |
+| **F** / **Fd** | ✗ | other **F** / **Fd** |
+
+**v1 constraint:** no cross-kind links (e.g. no `T → L` or `T → F` in `l` / `r` yet).
+
+References in `l` / `r` use paths **relative to `T-knowledge/`** (e.g. `T-computer-science/L-composite`). For file chains, `l` lists **next** neighbor(s) — often a sibling basename such as `F-02-execution.md`.
+
+Changing props or frontmatter does **not** change filesystem grouping (F-04 stability law).
+
+---
+
+## Example: composite props
+
+`T-knowledge/T-computer-science/props.yaml`:
+
+```yaml
+title: Computer science
+description: Computation, functions, semantics, and mechanics.
+kind: T
+edges:
+  g:
+    - L-functions
+    - L-composite
+    - L-inference
+    - L-semantics
+    - T-mechanics
+  l: []
+  r: []
+```
+
+`L-functions` before `L-composite` — pedagogical order, not alphabetical.
+
+---
+
+## Example: leaf frontmatter
+
+```yaml
+---
+title: Functions
+description: One lens on functions as bounded executable nodes.
+kind: F
+edges:
+  g: []
+  l:
+    - F-02-execution.md
+  r: []
+---
+# Functions
+…
+```
+
+Numeric `F-01-` prefixes remain optional; `edges.l` can define reading sequence without renaming files.
+
+---
+
+## TLF vs TLF+
+
+| | F-04 (core) | TLF+ (this repo) |
+|---|-------------|------------------|
+| Shape | $E_g$ from directory paths | same |
+| Child order | implicit (filesystem) | explicit in `edges.g` |
+| File `l` / `r` | $V_F \times V_F$ | frontmatter `edges.l` / `edges.r` |
+| Composite `l` / `r` | not specified | same-kind T→T, L→L |
+| Draft leaves | — | `Fd` kind |
+| Corpus root | forest at repo root | **`T-knowledge/`** topic |
+
+---
+
+## Repository metadata (not corpus nodes)
+
+- `README.md` — entry point (renders on GitHub)
+- `docs/` — project documentation
 - `LICENSE`, `LICENSE-CONTENT`, `NOTICE`, `ATTRIBUTION.md` — legal and attribution
 
 ---
@@ -79,18 +164,10 @@ Each exploration is a leaf (`F` or `Fd`) and can be read in two ways.
 
 ### As a paper
 
-Markdown leaves (`F-*.md`) are meant to be readable without running code.
-
-They should explain the main idea, motivation, definitions, examples, perspectives, invariants, and conclusions.
+Markdown leaves (`F-*.md`) are meant to be readable without running code — main idea, motivation, definitions, examples, perspectives, invariants, and conclusions.
 
 ### As an executable notebook
 
-Notebook leaves (`F-*.ipynb` or `Fd-*.ipynb`) make the idea interactive.
+Notebook leaves (`F-*.ipynb` or `Fd-*.ipynb`) make the idea interactive: code, diagrams, plots, experiments, and visual explanations.
 
-They may include code, diagrams, plots, experiments, examples, counterexamples, simulations, or visual explanations.
-
-The notebook is not only an implementation detail.
-
-It is part of the thinking process.
-
-Prefer **`F-*`** for material you treat as production-ready. Use **`Fd-*`** when the artifact is intentionally draft — same leaf role, different maturity.
+Prefer **`F-*`** for production-ready material. Use **`Fd-*`** for intentional drafts — same leaf role, different maturity.

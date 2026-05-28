@@ -5,7 +5,8 @@ Project docs for **foundations**. The repository entry point is [../README.md](.
 | File | Contents |
 |------|----------|
 | [COHESIAN.md](COHESIAN.md) | What Cohesian is — themes, questions, lenses |
-| [CORPUS.md](CORPUS.md) | TLF layout on disk — `T` / `L` / `F` / `Fd`, naming, reading papers vs notebooks |
+| [CORPUS.md](CORPUS.md) | TLF+ layout — `T-knowledge/`, `props.yaml`, frontmatter, edges |
+| [PLAN-tlf-extensions.md](PLAN-tlf-extensions.md) | Rollout plan (commits, migration, scaffolding) |
 | [EXPLORATIONS.md](EXPLORATIONS.md) | Index of topics and leaves with links |
 | [PRINCIPLES.md](PRINCIPLES.md) | How explorations are written |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute; AI-assisted workflow |
