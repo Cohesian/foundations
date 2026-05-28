@@ -191,7 +191,7 @@ This keeps the system simple: **filesystem = shape**, **props = order + overlays
 | Node metadata | not specified | unified `title`, `description`, `kind`, `edges` |
 | Corpus root | repo root or forest | **`T-knowledge/`** is ρ |
 
-Document TLF+ in F-04 (new section) or a short **F-05-tlf-plus-props.md** in `L-composite` — prefer extending F-04 + CORPUS to avoid sprawl.
+Document TLF+ in [CORPUS.md](CORPUS.md) only — F-04 stays the core, filesystem-agnostic TLF paper.
 
 ---
 
@@ -207,10 +207,9 @@ Document TLF+ in F-04 (new section) or a short **F-05-tlf-plus-props.md** in `L-
 
 ---
 
-### Commit 2 — `docs(F-04): document TLF+ edge extensions and node props`
+### Commit 2 — *(skipped)* F-04 stays core TLF only
 
-- Add section to [F-04-TLF-composite.md](../T-knowledge/T-computer-science/L-composite/F-04-TLF-composite.md) *after* move, or edit in place pre-move then fix path in commit 3.
-- State: same-kind `l`/`r` for T and L; F/Fd unchanged; props do not mutate $E_g$ paths.
+[F-04-TLF-composite.md](../T-computer-science/L-composite/F-04-TLF-composite.md) remains the **filesystem-agnostic** TLF spec ($E_l$, $E_r$ on files only). **TLF+** constraints and disk conventions live in [CORPUS.md](CORPUS.md) only — do not extend F-04.
 
 ---
 
