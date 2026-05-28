@@ -209,7 +209,7 @@ Document TLF+ in [CORPUS.md](CORPUS.md) only — F-04 stays the core, filesystem
 
 ### Commit 2 — *(skipped)* F-04 stays core TLF only
 
-[F-04-TLF-composite.md](../T-computer-science/L-composite/F-04-TLF-composite.md) remains the **filesystem-agnostic** TLF spec ($E_l$, $E_r$ on files only). **TLF+** constraints and disk conventions live in [CORPUS.md](CORPUS.md) only — do not extend F-04.
+[F-04-TLF-composite.md](../T-knowledge/T-computer-science/L-composite/F-04-TLF-composite.md) remains the **filesystem-agnostic** TLF spec ($E_l$, $E_r$ on files only). **TLF+** constraints and disk conventions live in [CORPUS.md](CORPUS.md) only — do not extend F-04.
 
 ---
 

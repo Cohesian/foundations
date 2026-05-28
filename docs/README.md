@@ -11,4 +11,4 @@ Project docs for **foundations**. The repository entry point is [../README.md](.
 | [PRINCIPLES.md](PRINCIPLES.md) | How explorations are written |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute; AI-assisted workflow |
 
-Formal TLF model: [F-04-TLF-composite.md](../T-computer-science/L-composite/F-04-TLF-composite.md).
+Formal TLF model: [F-04-TLF-composite.md](../T-knowledge/T-computer-science/L-composite/F-04-TLF-composite.md).

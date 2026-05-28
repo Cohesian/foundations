@@ -29,13 +29,14 @@ Project docs live in **[docs/](docs/)** (repo metadata, not TLF corpus leaves):
 | [NOTICE](NOTICE) · [ATTRIBUTION.md](ATTRIBUTION.md) | Attribution |
 | [LICENSE](LICENSE) · [LICENSE-CONTENT](LICENSE-CONTENT) | Dual license (code MIT · content CC BY 4.0) |
 
-Formal TLF model: [F-04-TLF-composite.md](T-computer-science/L-composite/F-04-TLF-composite.md).
+Formal TLF model: [F-04-TLF-composite.md](T-knowledge/T-computer-science/L-composite/F-04-TLF-composite.md).
 
 ---
 
 ## Quick map
 
-- **Math** — [T-math](T-math/) (e.g. [exponential phase](T-math/L-exponential-phase/), [linear algebra / vectors](T-math/T-linear-algebra/T-vectors/))
-- **Computer science** — [T-computer-science](T-computer-science/) (e.g. [functions](T-computer-science/L-functions/), [composite / binders](T-computer-science/L-composite/), [sparse ticker](T-computer-science/T-mechanics/L-sparse-ticker-state/))
+- **Corpus root** — [T-knowledge](T-knowledge/)
+- **Math** — [T-math](T-knowledge/T-math/) (e.g. [exponential phase](T-knowledge/T-math/L-exponential-phase/), [linear algebra / vectors](T-knowledge/T-math/T-linear-algebra/T-vectors/))
+- **Computer science** — [T-computer-science](T-knowledge/T-computer-science/) (e.g. [functions](T-knowledge/T-computer-science/L-functions/), [composite / binders](T-knowledge/T-computer-science/L-composite/), [sparse ticker](T-knowledge/T-computer-science/T-mechanics/L-sparse-ticker-state/))
 
 Full list: [docs/EXPLORATIONS.md](docs/EXPLORATIONS.md).
