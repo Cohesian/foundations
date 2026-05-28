@@ -29,3 +29,7 @@ build/
 outputs/
 tmp/
 temp/
+
+# Local-only notes (rollout plans, PR drafts) — see .changes/README.md
+.changes/*
+!.changes/README.md
