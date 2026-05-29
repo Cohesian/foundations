@@ -264,4 +264,4 @@ $$
 The graph underneath may still describe the same path.
 What changes is where the coordination burden is concentrated.
 
-Pipelines, wrappers, and graph views of function composition are treated separately in [function-network.md](function-network.md).
+Pipelines, wrappers, and graph views of function composition are treated separately in [F-03-function-network.md](F-03-function-network.md).

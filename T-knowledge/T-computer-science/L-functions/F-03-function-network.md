@@ -240,14 +240,14 @@ One can hide a whole pipeline inside one wrapper function.
 One can also build a pipeline directly through network-like composition.
 The graph view helps separate these two ideas.
 
-Implementation through ordinary functions is developed further in [04-function-natural-wrappers.md](04-function-natural-wrappers.md).
+Implementation through ordinary functions is developed further in [F-04-function-natural-wrappers.md](F-04-function-natural-wrappers.md).
 
 ---
 
 ## 5. Connection to Functions
 
 This network note does not redefine the function.
-It assumes what was already established in [01-function.md](01-function.md):
+It assumes what was already established in [F-01-function.md](F-01-function.md):
 
 - each node is a function
 - each function owns its own local ports
@@ -257,8 +257,8 @@ The network adds only relations between functions.
 
 So the split is:
 
-- [01-function.md](01-function.md): what a function is
-- [02-execution.md](02-execution.md): what execution is as an interface
-- [03-function-network.md](03-function-network.md): how functions relate as paths and trees
-- [04-function-natural-wrappers.md](04-function-natural-wrappers.md): how paths and trees are commonly implemented through ordinary functions
-- [05-carbon-binder.md](05-carbon-binder.md): how one common binder can glue many concrete geometries
+- [F-01-function.md](F-01-function.md): what a function is
+- [F-02-execution.md](F-02-execution.md): what execution is as an interface
+- [F-03-function-network.md](F-03-function-network.md): how functions relate as paths and trees
+- [F-04-function-natural-wrappers.md](F-04-function-natural-wrappers.md): how paths and trees are commonly implemented through ordinary functions
+- [F-01-carbon-binder.md](../L-composite/F-01-carbon-binder.md): how one common binder can glue many concrete geometries
