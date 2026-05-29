@@ -174,10 +174,10 @@ So the binder pattern is not limited to type systems.
 
 ## 6. Connection
 
-This note is another specialization of [05-carbon-binder.md](05-carbon-binder.md):
+This note is another specialization of [F-01-carbon-binder.md](F-01-carbon-binder.md):
 
 $$
 C \Rightarrow Q
 $$
 
-Together with [06-type-binder.md](06-type-binder.md), it shows that the binder pattern can reappear in different structural domains.
+Together with [F-02-type-binder.md](F-02-type-binder.md), it shows that the binder pattern can reappear in different structural domains.

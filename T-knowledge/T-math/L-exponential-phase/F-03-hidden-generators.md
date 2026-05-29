@@ -15,7 +15,7 @@ edges:
 > When the first exact phase step lands in the natural numbers, it is no longer only a value.
 > It becomes a new local branching base.
 
-This note continues [02-discrete-phase-rulers.md](02-discrete-phase-rulers.md).
+This note continues [F-02-discrete-phase-rulers.md](F-02-discrete-phase-rulers.md).
 
 The previous paper stabilized the phase language.
 This one focuses on the object that appears when a ruler is exact:

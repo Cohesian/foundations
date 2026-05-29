@@ -190,13 +190,13 @@ So `C` is the abstract binder idea, while symbols such as `T` or `Q` are domain-
 
 This binder note sits beside the function notes, but it is more general:
 
-- [01-function.md](01-function.md): a function as bounded unit
-- [02-execution.md](02-execution.md): one interface admitting many executable forms
-- [03-function-network.md](03-function-network.md): one graph relating many nodes
-- [04-function-natural-wrappers.md](04-function-natural-wrappers.md): functions as natural wrappers
+- [F-01-function.md](../L-functions/F-01-function.md): a function as bounded unit
+- [F-02-execution.md](../L-functions/F-02-execution.md): one interface admitting many executable forms
+- [F-03-function-network.md](../L-functions/F-03-function-network.md): one graph relating many nodes
+- [F-04-function-natural-wrappers.md](../L-functions/F-04-function-natural-wrappers.md): functions as natural wrappers
 
 Several domain specializations follow:
 
-- [06-type-binder.md](06-type-binder.md): `T` as a binder for a type system
-- [07-query-binder.md](07-query-binder.md): `Q` as a binder for query structure
-- [08-tlf-composite.md](08-tlf-composite.md): `K` as a corpus composite with traversal overlays
+- [F-02-type-binder.md](F-02-type-binder.md): `T` as a binder for a type system
+- [F-03-query-binder.md](F-03-query-binder.md): `Q` as a binder for query structure
+- [F-04-TLF-composite.md](F-04-TLF-composite.md): `K` as a corpus composite with traversal overlays

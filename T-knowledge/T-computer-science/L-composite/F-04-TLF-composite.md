@@ -606,7 +606,7 @@ The dotted edges are $E_l$ and $E_r$.
 
 ## 12. Relation to Type Binder
 
-[06-type-binder.md](06-type-binder.md) uses:
+[F-02-type-binder.md](F-02-type-binder.md) uses:
 
 $$
 T ::= t \mid d\{T\}

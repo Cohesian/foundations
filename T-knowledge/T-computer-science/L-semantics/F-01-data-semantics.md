@@ -71,7 +71,7 @@ The concrete language is only one way to write it down.
 
 ### Data Packets As Carriers
 
-In the [function graph lens](../function-graph-lens/01-function.md#2-ports-and-packets), a packet is the value that travels through ports and between executable nodes.
+In the [function graph lens](../L-functions/F-01-function.md#2-ports-and-packets), a packet is the value that travels through ports and between executable nodes.
 
 Data semantics describes one important way to understand what such a packet may contain.
 A packet may carry a leaf, tuple, record, array, object, table row, API response, document, or any nested composite tree.
