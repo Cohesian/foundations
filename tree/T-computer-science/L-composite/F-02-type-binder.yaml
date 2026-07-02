@@ -1,0 +1,11 @@
+title: Type Binder
+description: Types as a composite binder surface.
+kind: F
+formats:
+  - md
+edges:
+  g: []
+  l:
+    prev: F-01-carbon-binder
+    next: F-03-query-binder
+  r: []

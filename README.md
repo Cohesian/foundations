@@ -21,21 +21,22 @@ Project docs live in **[docs/](docs/)** (repo metadata, not TLF corpus leaves):
 | File | Contents |
 |------|----------|
 | [docs/COHESIAN.md](docs/COHESIAN.md) | What Cohesian is — themes, questions, lenses |
-| [docs/CORPUS.md](docs/CORPUS.md) | TLF+ layout — `T-knowledge/`, `props.yaml`, frontmatter, edges |
+| [docs/CORPUS.md](docs/CORPUS.md) | TLF layout — `tree/` + `papers/` + `media/`, node yamls |
 | [docs/EXPLORATIONS.md](docs/EXPLORATIONS.md) | Index of topics and leaves with links |
 | [docs/PRINCIPLES.md](docs/PRINCIPLES.md) | How explorations are written |
 | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | How to contribute; AI-assisted workflow |
 | [NOTICE](NOTICE) · [ATTRIBUTION.md](ATTRIBUTION.md) | Attribution |
 | [LICENSE](LICENSE) · [LICENSE-CONTENT](LICENSE-CONTENT) | Dual license (code MIT · content CC BY 4.0) |
 
-Formal TLF model: [F-04-TLF-composite.md](T-knowledge/T-computer-science/L-composite/F-04-TLF-composite.md).
+Formal TLF model: [F-04-TLF-composite.md](papers/T-computer-science/L-composite/F-04-TLF-composite.md).
 
 ---
 
 ## Quick map
 
-- **Corpus root** — [T-knowledge](T-knowledge/)
-- **Math** — [T-math](T-knowledge/T-math/) (e.g. [exponential phase](T-knowledge/T-math/L-exponential-phase/), [linear algebra / vectors](T-knowledge/T-math/T-linear-algebra/T-vectors/))
-- **Computer science** — [T-computer-science](T-knowledge/T-computer-science/) (e.g. [functions](T-knowledge/T-computer-science/L-functions/), [composite / binders](T-knowledge/T-computer-science/L-composite/), [sparse ticker](T-knowledge/T-computer-science/T-mechanics/L-sparse-ticker-state/))
+Structure lives in [tree/](tree/); content in [papers/](papers/) (md, ipynb) and [media/](media/) (mp4).
+
+- **Math** — [T-math](papers/T-math/) (e.g. [exponential phase](papers/T-math/L-exponential-phase/), [linear algebra / vectors](papers/T-math/T-linear-algebra/T-vectors/))
+- **Computer science** — [T-computer-science](papers/T-computer-science/) (e.g. [functions](papers/T-computer-science/L-functions/), [composite / binders](papers/T-computer-science/L-composite/), [sparse ticker](papers/T-computer-science/T-mechanics/L-sparse-ticker-state/))
 
 Full list: [docs/EXPLORATIONS.md](docs/EXPLORATIONS.md).
