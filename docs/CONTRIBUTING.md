@@ -16,7 +16,7 @@ This repository is personal and exploratory. Suggestions and discussions are wel
 
 The best contributions do not only add information — they **reveal structure**.
 
-See [PRINCIPLES.md](PRINCIPLES.md) for how material is usually written, and [CORPUS.md](CORPUS.md) for where new files should live.
+See [PRINCIPLES.md](PRINCIPLES.md) for how material is usually written, and [KGRAPH.md](KGRAPH.md) for where new files should live.
 
 ---
 

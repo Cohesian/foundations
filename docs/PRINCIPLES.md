@@ -34,4 +34,4 @@ Diagrams, graphs, plots, and visual models are tools for thought, not decoration
 
 Code and notebooks test, visualize, and interact with ideas — often revealing structure that static text alone does not show.
 
-See also [CORPUS.md](CORPUS.md) for how papers (`F-*`) and notebooks (`F-*` / `Fd-*`) fit the corpus.
+See also [KGRAPH.md](KGRAPH.md) for how papers (`F-*`) and notebooks (`F-*` / `Fd-*`) fit the k-graph.

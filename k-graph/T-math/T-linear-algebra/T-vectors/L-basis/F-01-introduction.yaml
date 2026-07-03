@@ -1,0 +1,11 @@
+title: Introduction
+description: Basis and coordinates (work in progress).
+kind: F
+formats:
+  - papers
+edges:
+  g: []
+  l:
+    prev: null
+    next: null
+  r: []
