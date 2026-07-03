@@ -1,0 +1,12 @@
+# Manim scratch tree (partial movies, images, Tex, temp mp4s).
+.build/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Rendered videos live in the sibling media/ domain, never here.
+*.mp4
+*.mov
+*.webm
