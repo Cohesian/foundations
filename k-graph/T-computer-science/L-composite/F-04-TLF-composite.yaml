@@ -1,0 +1,13 @@
+title: TLF Composite
+description: Topic / Lecture / File composite pattern for a knowledge corpus.
+kind: F
+formats:
+  - papers
+  - loci
+  - media
+edges:
+  g: []
+  l:
+    prev: F-03-query-binder
+    next: null
+  r: []

@@ -29,3 +29,14 @@ build/
 outputs/
 tmp/
 temp/
+
+# Local-only notes (rollout plans, PR drafts) — see .changes/README.md
+.changes/*
+!.changes/README.md
+
+# K-graph media — video binaries live in a bucket, not in git.
+# The tree/ node yamls keep the format-agnostic locators; media/ mirrors paths only.
+media/**/*.mp4
+media/**/*.mov
+media/**/*.webm
+!media/.gitkeep
