@@ -16,12 +16,12 @@ The repo is **readable and executable** — Markdown for concepts, Jupyter where
 
 ## Documentation
 
-Project docs live in **[docs/](docs/)** (repo metadata, not TLF corpus leaves):
+Project docs live in **[docs/](docs/)** (repo metadata, not k-graph leaves):
 
 | File | Contents |
 |------|----------|
 | [docs/COHESIAN.md](docs/COHESIAN.md) | What Cohesian is — themes, questions, lenses |
-| [docs/CORPUS.md](docs/CORPUS.md) | TLF layout — `tree/` + `papers/` + `media/`, node yamls |
+| [docs/KGRAPH.md](docs/KGRAPH.md) | K-graph layout — `k-graph/` + `papers/` + `media/`, node yamls |
 | [docs/EXPLORATIONS.md](docs/EXPLORATIONS.md) | Index of topics and leaves with links |
 | [docs/PRINCIPLES.md](docs/PRINCIPLES.md) | How explorations are written |
 | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | How to contribute; AI-assisted workflow |
@@ -34,7 +34,7 @@ Formal TLF model: [F-04-TLF-composite.md](papers/T-computer-science/L-composite/
 
 ## Quick map
 
-Structure lives in [tree/](tree/); content in [papers/](papers/) (md, ipynb) and [media/](media/) (mp4).
+Structure lives in [k-graph/](k-graph/); content in [papers/](papers/) (md, ipynb) and [media/](media/) (mp4).
 
 - **Math** — [T-math](papers/T-math/) (e.g. [exponential phase](papers/T-math/L-exponential-phase/), [linear algebra / vectors](papers/T-math/T-linear-algebra/T-vectors/))
 - **Computer science** — [T-computer-science](papers/T-computer-science/) (e.g. [functions](papers/T-computer-science/L-functions/), [composite / binders](papers/T-computer-science/L-composite/), [sparse ticker](papers/T-computer-science/T-mechanics/L-sparse-ticker-state/))

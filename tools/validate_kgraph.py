@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
-"""Validate the 3-dir corpus: tree/ (structure) + papers/ + media/ (content).
+"""Validate the k-graph: k-graph/ (structure) + content resolved via k-graph.toml.
 
 Layout:
-- tree/    yaml-only. Every node carries `edges` with three axes:
+- k-graph/ yaml-only. Every node carries `edges` with three axes:
              g = grouping (ordered children; composites),
              l = linear   (prev / next reading chain),
              r = related  (cross-links).
            Leaves also carry a `formats` list.
-- papers/  md + ipynb content, mirrored path, named <id>.<ext>.
-- media/   mp4 content, mirrored path, named <id>.mp4.
-
-Content locator is implicit: <domain>/<same relative path>/<id>.<ext>.
+- content  resolved per format by k-graph.toml:
+             local  -> <base>/<relative path>/<id>.<ext>  (checked on disk)
+             remote -> <base>/<relative path>/<id>.<ext>  (trusted; e.g. bucket)
 
 Checks per node:
 - composite edges.g children exist (subdir or <id>.yaml);
 - leaf edges.l prev/next and edges.r targets exist among siblings;
-- leaf `formats` are known and each content file is present in its domain dir.
+- leaf `formats` are configured in k-graph.toml, and local formats have their file present.
 
-Non-zero exit on any problem. Pure stdlib + pyyaml.
+Non-zero exit on any problem. Stdlib + pyyaml.
 """
 from __future__ import annotations
 
@@ -25,20 +24,32 @@ import sys
 from pathlib import Path
 
 try:
+    import tomllib
+except ModuleNotFoundError:
+    sys.exit("Python 3.11+ (tomllib) required")
+
+try:
     import yaml
 except ModuleNotFoundError:
     sys.exit("pyyaml is required: pip install pyyaml")
 
 ROOT = Path(__file__).resolve().parent.parent
-TREE = ROOT / "tree"
-DOMAIN = {"md": ROOT / "papers", "ipynb": ROOT / "papers", "mp4": ROOT / "media"}
-KNOWN_FMTS = set(DOMAIN)
+TREE = ROOT / "k-graph"
+CONFIG = ROOT / "k-graph.toml"
 
 problems: list[str] = []
 
 
 def err(where: Path, msg: str):
     problems.append(f"{where.relative_to(ROOT)}: {msg}")
+
+
+def load_formats() -> dict:
+    if not CONFIG.exists():
+        sys.exit(f"config not found: {CONFIG}")
+    with CONFIG.open("rb") as fh:
+        cfg = tomllib.load(fh)
+    return cfg.get("formats", {})
 
 
 def sibling_ids(tree_dir: Path) -> set[str]:
@@ -63,12 +74,29 @@ def check_edges(where: Path, node: dict, siblings: set[str], composite: bool):
             err(where, f"edges.r '{t}' not found among siblings")
 
 
+def check_formats(leaf: Path, node: dict, rel: Path, fmt_cfg: dict):
+    formats = node.get("formats") or []
+    if not formats:
+        err(leaf, "no formats listed")
+    node_id = leaf.stem
+    for fmt in formats:
+        spec = fmt_cfg.get(fmt)
+        if spec is None:
+            err(leaf, f"format '{fmt}' not configured in k-graph.toml")
+            continue
+        if spec.get("origin") == "local":
+            target = ROOT / spec.get("base", "") / rel / f"{node_id}.{fmt}"
+            if not target.exists():
+                err(leaf, f"format '{fmt}' -> missing {target.relative_to(ROOT)}")
+        # remote formats are trusted (resolved at read time against the base URL)
+
+
 def main():
     if not TREE.exists():
-        sys.exit(f"tree not found: {TREE}")
+        sys.exit(f"k-graph dir not found: {TREE}")
+    fmt_cfg = load_formats()
 
     n_leaves = n_composites = 0
-
     for dir_path in [TREE, *[p for p in TREE.rglob("*") if p.is_dir()]]:
         rel = dir_path.relative_to(TREE)
         siblings = sibling_ids(dir_path)
@@ -86,21 +114,10 @@ def main():
                 continue
             n_leaves += 1
             node = yaml.safe_load(leaf.read_text()) or {}
-            node_id = leaf.stem
             if node.get("kind") not in ("F", "Fd"):
                 err(leaf, f"leaf kind must be F/Fd, got {node.get('kind')}")
             check_edges(leaf, node, siblings, composite=False)
-
-            formats = node.get("formats") or []
-            if not formats:
-                err(leaf, "no formats listed")
-            for fmt in formats:
-                if fmt not in KNOWN_FMTS:
-                    err(leaf, f"unknown format '{fmt}'")
-                    continue
-                content = DOMAIN[fmt] / rel / f"{node_id}.{fmt}"
-                if not content.exists():
-                    err(leaf, f"format '{fmt}' -> missing {content.relative_to(ROOT)}")
+            check_formats(leaf, node, rel, fmt_cfg)
 
     if problems:
         print(f"FAIL: {len(problems)} problem(s):\n")

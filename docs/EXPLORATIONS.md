@@ -1,10 +1,10 @@
 # Explorations
 
-Index of material in the corpus. Layout, naming, and node props: [CORPUS.md](CORPUS.md).
+Index of material in the k-graph. Layout, naming, and node props: [KGRAPH.md](KGRAPH.md).
 
-**Reading order** follows each composite’s **`props.yaml`** `edges.g` list in [`tree/`](../tree/) — not directory sort or filename prefixes.
+**Reading order** follows each composite’s **`props.yaml`** `edges.g` list in [`k-graph/`](../k-graph/) — not directory sort or filename prefixes.
 
-Structure: [tree/](../tree/) · content in [papers/](../papers/) (md, ipynb) and [media/](../media/) (mp4) · root order in [tree/props.yaml](../tree/props.yaml).
+Structure: [k-graph/](../k-graph/) · content in [papers/](../papers/) (md, ipynb) and [media/](../media/) (mp4) · root order in [k-graph/props.yaml](../k-graph/props.yaml).
 
 ---
 
@@ -56,7 +56,7 @@ Functions that compose, wrap, transform, and build higher-level behavior — lin
 
 ### [L-composite](../papers/T-computer-science/L-composite/)
 
-Binders and corpus structure: carbon, type, query binders; [F-04-TLF-composite.md](../papers/T-computer-science/L-composite/F-04-TLF-composite.md) defines the core TLF model (disk conventions in [CORPUS.md](CORPUS.md)).
+Binders and k-graph structure: carbon, type, query binders; [F-04-TLF-composite.md](../papers/T-computer-science/L-composite/F-04-TLF-composite.md) defines the core TLF model (disk conventions in [KGRAPH.md](KGRAPH.md)).
 
 | Leaf | Role |
 |------|------|

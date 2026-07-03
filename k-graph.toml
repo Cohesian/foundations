@@ -1,0 +1,25 @@
+# K-graph resolution config.
+#
+# k-graph/ nodes are origin-agnostic: a leaf only declares which formats it has
+# (its `formats` list). This file says WHERE each format resolves.
+#
+# A node's content is located as:
+#     <base>/<relative path>/<id>.<ext>
+#
+# where <relative path> is the node's path inside k-graph/ (without the id),
+# e.g. k-graph/T-computer-science/L-functions/F-01-function.yaml
+#   ->  relative path  = T-computer-science/L-functions
+#   ->  md   (local)   = papers/T-computer-science/L-functions/F-01-function.md
+#   ->  mp4  (remote)  = https://media.cohesian.org/T-computer-science/L-functions/F-01-function.mp4
+
+[formats.md]
+origin = "local"    # resolved against the repo root
+base = "papers"
+
+[formats.ipynb]
+origin = "local"
+base = "papers"
+
+[formats.mp4]
+origin = "remote"   # lives in a bucket / CDN; not stored in git
+base = "https://media.cohesian.org"

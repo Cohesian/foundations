@@ -50,7 +50,7 @@ What stays stable across change — essential when representation, scale, or con
 
 ### Shared patterns across domains
 
-Graphs, sets, functions, transformations, spaces, composition, constraints, relations, mappings, matrices, and abstractions recur everywhere. This corpus studies them across areas instead of in isolation.
+Graphs, sets, functions, transformations, spaces, composition, constraints, relations, mappings, matrices, and abstractions recur everywhere. This k-graph studies them across areas instead of in isolation.
 
 ---
 

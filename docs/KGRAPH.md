@@ -1,18 +1,18 @@
-# Corpus layout
+# K-graph layout
 
 How the **foundations** repository organizes explorations on disk.
 
-The corpus uses **TLF** — **Topic / Lecture / File** — a labeled composite pattern for knowledge. The formal (filesystem-agnostic) model is in [F-04-TLF-composite.md](../papers/T-computer-science/L-composite/F-04-TLF-composite.md). **This document** is the **disk realization** for **foundations**.
+The **k-graph** (knowledge graph) uses **TLF** — **Topic / Lecture / File** — a labeled composite pattern for knowledge. It's not a strict tree or a perfect DAG: the grouping axis (`g`) reads tree-like, but the linear (`l`) and related (`r`) axes add cross-links. The formal (filesystem-agnostic) model is in [F-04-TLF-composite.md](../papers/T-computer-science/L-composite/F-04-TLF-composite.md). **This document** is the **disk realization** for **foundations**.
 
 ---
 
 ## Three sibling dirs
 
-The corpus is split into one **structure** dir and one dir per **content domain**:
+The k-graph is split into one **structure** dir and one dir per **content domain**:
 
 ```text
 foundations/
-  tree/       ← structure: yaml nodes only (the TLF tree)
+  k-graph/    ← structure: yaml nodes only (the TLF tree)
   papers/     ← content: .md and .ipynb
   media/      ← content: .mp4
 ```
@@ -23,17 +23,17 @@ All three share the **same relative paths**. A node's content is found by conven
 <domain>/<same relative path>/<node-id>.<ext>
 ```
 
-So `tree/T-math/L-division/F-01-introduction.yaml` has its paper at
+So `k-graph/T-math/L-division/F-01-introduction.yaml` has its paper at
 `papers/T-math/L-division/F-01-introduction.md`, and (once produced) its video at
 `media/T-math/L-division/F-01-introduction.mp4`.
 
-Content files carry **no frontmatter or metadata** — they are pure content. All metadata lives in `tree/`.
+Content files carry **no frontmatter or metadata** — they are pure content. All metadata lives in `k-graph/`.
 
 ---
 
 ## Node kinds
 
-| Kind | Role | In `tree/` |
+| Kind | Role | In `k-graph/` |
 |------|------|------------|
 | `T` | Topic (composite) | Directory `T-<slug>/` + `props.yaml` |
 | `L` | Lecture (composite) | Directory `L-<slug>/` + `props.yaml` |
@@ -101,36 +101,58 @@ Children are leaf ids or sub-directory names. Order is pedagogical, not alphabet
 
 ---
 
-## Format → domain map
+## Resolution config — `k-graph.toml`
 
-| Format | Lives in |
-|--------|----------|
-| `md` | `papers/` |
-| `ipynb` | `papers/` |
-| `mp4` | `media/` |
+`k-graph/` nodes stay origin-agnostic (a leaf only declares *which* formats it has).
+Where each format resolves is defined once in [`k-graph.toml`](../k-graph.toml):
 
-Notebooks group with papers (written / executable material); videos are the media domain. New domains can be added by extending this map.
+```toml
+[formats.md]
+origin = "local"    # resolved against the repo root
+base = "papers"
+
+[formats.ipynb]
+origin = "local"
+base = "papers"
+
+[formats.mp4]
+origin = "remote"   # bucket / CDN; not stored in git
+base = "https://media.cohesian.org"
+```
+
+A node's content is located as `<base>/<relative path>/<id>.<ext>`:
+
+| Format | Origin | Example for `T-computer-science/L-functions/F-01-function` |
+|--------|--------|-----------------------------------------------------------|
+| `md` | local | `papers/T-computer-science/L-functions/F-01-function.md` |
+| `ipynb` | local | `papers/T-computer-science/L-functions/F-01-function.ipynb` |
+| `mp4` | remote | `https://media.cohesian.org/T-computer-science/L-functions/F-01-function.mp4` |
+
+- **Local** origins are checked on disk by the validator.
+- **Remote** origins are trusted (declaring the format is enough; the binary lives in the bucket and is gitignored).
+- Add a new format (e.g. `pdf`, `slides`) by adding a `[formats.<ext>]` block — no tree changes needed.
 
 ---
 
 ## Validation
 
-`tools/validate_corpus.py` checks the whole corpus:
+`tools/validate_kgraph.py` checks the whole k-graph:
 
 - every `edges.g` / `edges.l` / `edges.r` target resolves to a real sibling node;
 - every leaf `formats` entry has its content file present in the right domain dir.
 
 ```bash
-python tools/validate_corpus.py   # requires pyyaml
+python tools/validate_kgraph.py   # requires pyyaml
 ```
 
 ---
 
-## Repository metadata (not corpus nodes)
+## Repository metadata (not k-graph nodes)
 
 - `README.md` — entry point (renders on GitHub)
 - `docs/` — project documentation
-- `tools/` — corpus tooling (validator)
+- `k-graph.toml` — format resolution config (origins / bases)
+- `tools/` — k-graph tooling (validator)
 - `LICENSE`, `LICENSE-CONTENT`, `NOTICE`, `ATTRIBUTION.md` — legal and attribution
 
 ---

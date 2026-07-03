@@ -34,7 +34,7 @@ temp/
 .changes/*
 !.changes/README.md
 
-# Corpus media — video binaries live in a bucket, not in git.
+# K-graph media — video binaries live in a bucket, not in git.
 # The tree/ node yamls keep the format-agnostic locators; media/ mirrors paths only.
 media/**/*.mp4
 media/**/*.mov

@@ -6,9 +6,9 @@ Use it for:
 
 - Rollout / migration plans while a refactor is in flight
 - PR title and description drafts (copy-paste into GitHub)
-- Scratch checklists you do not want in the corpus or `docs/`
+- Scratch checklists you do not want in the k-graph or `docs/`
 
-**Permanent spec** stays in the repo: [docs/CORPUS.md](../docs/CORPUS.md), papers under [T-knowledge/](../T-knowledge/).
+**Permanent spec** stays in the repo: [docs/KGRAPH.md](../docs/KGRAPH.md), structure under [k-graph/](../k-graph/), content under [papers/](../papers/).
 
 ## Suggested filenames
 
