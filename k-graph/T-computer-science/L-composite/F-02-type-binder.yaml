@@ -2,7 +2,9 @@ title: Type Binder
 description: Types as a composite binder surface.
 kind: F
 formats:
-  - md
+  - papers
+  - loci
+  - media
 edges:
   g: []
   l:

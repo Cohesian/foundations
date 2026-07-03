@@ -84,8 +84,9 @@ def check_formats(leaf: Path, node: dict, rel: Path, fmt_cfg: dict):
         if spec is None:
             err(leaf, f"format '{fmt}' not configured in k-graph.toml")
             continue
+        ext = spec.get("ext", fmt)
         if spec.get("origin") == "local":
-            target = ROOT / spec.get("base", "") / rel / f"{node_id}.{fmt}"
+            target = ROOT / spec.get("base", "") / rel / f"{node_id}.{ext}"
             if not target.exists():
                 err(leaf, f"format '{fmt}' -> missing {target.relative_to(ROOT)}")
         # remote formats are trusted (resolved at read time against the base URL)

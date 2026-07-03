@@ -2,7 +2,7 @@ title: Data Semantics
 description: Composite tree shape of data before file format.
 kind: F
 formats:
-  - md
+  - papers
 edges:
   g: []
   l:

@@ -2,7 +2,7 @@ title: JSON Representation
 description: JSON as a representation layer for semantic data.
 kind: F
 formats:
-  - md
+  - papers
 edges:
   g: []
   l:

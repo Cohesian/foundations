@@ -2,7 +2,7 @@ title: Agent Architecture
 description: Agent structure for inference over semantic data.
 kind: F
 formats:
-  - md
+  - papers
 edges:
   g: []
   l:

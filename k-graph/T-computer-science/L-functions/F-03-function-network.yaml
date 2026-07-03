@@ -2,7 +2,7 @@ title: Function Network
 description: Pipelines, wrappers, and functions as graph structure.
 kind: F
 formats:
-  - md
+  - papers
 edges:
   g: []
   l:

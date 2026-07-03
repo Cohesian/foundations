@@ -2,7 +2,7 @@ title: Inference Theorem
 description: Inducing a common semantic backbone from a family of input files.
 kind: F
 formats:
-  - md
+  - papers
 edges:
   g: []
   l:

@@ -2,7 +2,9 @@ title: Query Binder
 description: Query structure as a binder specialization.
 kind: F
 formats:
-  - md
+  - papers
+  - loci
+  - media
 edges:
   g: []
   l:

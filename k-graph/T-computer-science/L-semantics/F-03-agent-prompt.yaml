@@ -2,7 +2,7 @@ title: Semantic Data Packets
 description: Agent prompts and semantic data packets.
 kind: F
 formats:
-  - md
+  - papers
 edges:
   g: []
   l:

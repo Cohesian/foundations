@@ -2,7 +2,9 @@ title: Carbon Binder
 description: A common binder interface that generates many structures.
 kind: F
 formats:
-  - md
+  - papers
+  - loci
+  - media
 edges:
   g: []
   l:

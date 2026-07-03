@@ -2,7 +2,7 @@ title: Branching Depth Resolution
 description: Base as branching factor; exponent as depth coordinate.
 kind: F
 formats:
-  - md
+  - papers
 edges:
   g: []
   l:

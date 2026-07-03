@@ -2,7 +2,7 @@ title: Discrete Phase Rulers
 description: Phase rulers that inspect coarse exponential jumps without changing the base.
 kind: F
 formats:
-  - md
+  - papers
 edges:
   g: []
   l:

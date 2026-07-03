@@ -2,7 +2,7 @@ title: Sparse Ticker State Ledger
 description: Tracking, replaying, and rolling back state in discrete animated worlds.
 kind: F
 formats:
-  - md
+  - papers
   - ipynb
 edges:
   g: []

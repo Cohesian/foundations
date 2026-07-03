@@ -2,7 +2,7 @@ title: Function Orchestration
 description: Internal process coordination behind a function boundary (draft).
 kind: Fd
 formats:
-  - md
+  - papers
 edges:
   g: []
   l:
