@@ -1,10 +1,14 @@
 title: TLF Composite
 description: Topic / Lecture / File composite pattern for a knowledge corpus.
 kind: F
-formats:
-  - papers
-  - loci
-  - media
+data:
+  documents:
+    - md
+  media:
+    loci:
+      - py
+    renders:
+      - mp4
 edges:
   g: []
   l:

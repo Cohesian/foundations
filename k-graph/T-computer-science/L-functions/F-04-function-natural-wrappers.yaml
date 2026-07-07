@@ -1,8 +1,9 @@
 title: Function Natural Wrappers
 description: Natural wrappers as reusable function boundaries.
 kind: F
-formats:
-  - papers
+data:
+  documents:
+    - md
 edges:
   g: []
   l:

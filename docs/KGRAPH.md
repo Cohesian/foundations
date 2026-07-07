@@ -2,31 +2,33 @@
 
 How the **foundations** repository organizes explorations on disk.
 
-The **k-graph** (knowledge graph) uses **TLF** — **Topic / Lecture / File** — a labeled composite pattern for knowledge. It's not a strict tree or a perfect DAG: the grouping axis (`g`) reads tree-like, but the linear (`l`) and related (`r`) axes add cross-links. The formal (filesystem-agnostic) model is in [F-04-TLF-composite.md](../papers/T-computer-science/L-composite/F-04-TLF-composite.md). **This document** is the **disk realization** for **foundations**.
+The **k-graph** (knowledge graph) uses **TLF** — **Topic / Lecture / File** — a labeled composite pattern for knowledge. It's not a strict tree or a perfect DAG: the grouping axis (`g`) reads tree-like, but the linear (`l`) and related (`r`) axes add cross-links. The formal (filesystem-agnostic) model is in [F-04-TLF-composite.md](../data/documents/T-computer-science/L-composite/F-04-TLF-composite.md). **This document** is the **disk realization** for **foundations**.
 
 ---
 
-## Three sibling dirs
+## Structure + data trees
 
-The k-graph is split into one **structure** dir and one dir per **content domain**:
+The k-graph is split into one **structure** dir and three **content trees** under `data/`:
 
 ```text
 foundations/
-  k-graph/    ← structure: yaml nodes only (the TLF tree)
-  papers/     ← content: .md and .ipynb
-  loci/       ← content: .py (loci/manim scene scripts)
-  media/      ← content: .mp4 (rendered from loci/)
+  k-graph/              ← structure: yaml nodes only (the TLF tree)
+  data/
+    documents/          ← .md and .ipynb
+    media/
+      loci/             ← .py scene scripts (source of truth, committed)
+      renders/          ← .mp4 outputs (build artifacts, gitignored / remote)
 ```
 
-All three share the **same relative paths**. A node's content is found by convention:
+All trees share the **same relative path** as the node inside `k-graph/`. A node's content is found by convention:
 
 ```
-<domain>/<same relative path>/<node-id>.<ext>
+<tree-root>/<same relative path>/<node-id>.<ext>
 ```
 
-So `k-graph/T-math/L-division/F-01-introduction.yaml` has its paper at
-`papers/T-math/L-division/F-01-introduction.md`, and (once produced) its video at
-`media/T-math/L-division/F-01-introduction.mp4`.
+So `k-graph/T-math/L-division/F-01-introduction.yaml` has its document at
+`data/documents/T-math/L-division/F-01-introduction.md`, and (once produced) its
+render at `data/media/renders/T-math/L-division/F-01-introduction.mp4`.
 
 Content files carry **no frontmatter or metadata** — they are pure content. All metadata lives in `k-graph/`.
 
@@ -42,7 +44,7 @@ Content files carry **no frontmatter or metadata** — they are pure content. Al
 | `Fd` | File (leaf, draft) | `Fd-<slug>.yaml` |
 
 - **Composites** (`T`, `L`) may nest any mixture of `T`, `L`, `F`, and `Fd`.
-- **Leaves** (`F`, `Fd`) are format-agnostic — id is `F-01-function`, not `F-01-function.md`. The same node can carry a paper, a notebook, a scene, and a video.
+- **Leaves** (`F`, `Fd`) are data-agnostic — id is `F-01-function`, not `F-01-function.md`. The same node can hold documents, a loci scene, and a render.
 
 ---
 
@@ -54,18 +56,19 @@ Every node carries the three TLF edge axes under `edges`:
 - **`l` — linear:** the reading chain, as a `prev` / `next` pair.
 - **`r` — related:** cross-links to other nodes.
 
-All edge targets are **format-agnostic ids** (`F-01-function`, or a directory name). Use `null` / `[]` where empty.
+All edge targets are **data-agnostic ids** (`F-01-function`, or a directory name). Use `null` / `[]` where empty.
 
 ### Leaf — `<id>.yaml`
 
-A leaf adds a `formats` list (which content domains it has, in order):
+A leaf adds a `data` block — which trees it holds and which extensions exist in each:
 
 ```yaml
 title: Execution
 description: Execution as the interface admitting many executable forms.
 kind: F
-formats:
-  - papers
+data:
+  documents:
+    - md
 edges:
   g: []
   l:
@@ -74,9 +77,22 @@ edges:
   r: []
 ```
 
-- Formats are named after the **content domain** that holds them (`papers`, `loci`, `media`) — not the bare extension — so the list reads as "there is something in that space".
-- A format is present **iff** it is listed — consumers never probe `papers/`, `loci/`, or `media/` to discover formats.
-- Add a format when it is produced (e.g. add `loci` + `media` once a scene and its video exist), remove it if it goes away.
+A leaf with documents, a loci scene, and a render:
+
+```yaml
+data:
+  media:
+    loci:
+      - py
+    renders:
+      - mp4
+  documents:
+    - md
+```
+
+- Each tree (`documents`, `media.loci`, `media.renders`) lists the **extensions** present for that node — there can be more than one per tree (e.g. `documents: [md, ipynb]`).
+- Data is present **iff** it is listed — consumers never probe `data/` to discover what exists.
+- Add a tree when content is produced (e.g. add `media.loci` + `media.renders` once a scene and its video exist), remove it if it goes away.
 
 ### Composite — `props.yaml`
 
@@ -105,44 +121,34 @@ Children are leaf ids or sub-directory names. Order is pedagogical, not alphabet
 
 ## Resolution config — `k-graph.toml`
 
-`k-graph/` nodes stay origin-agnostic (a leaf only declares *which* formats it has).
-Where each format resolves is defined once in [`k-graph.toml`](../k-graph.toml):
+`k-graph/` nodes stay origin-agnostic (a leaf only declares *what* data it holds).
+Where each tree resolves is defined once in [`k-graph.toml`](../k-graph.toml):
 
 ```toml
-[formats.papers]
-origin = "local"    # resolved against the repo root
-base = "papers"
-ext = "md"
+[data.media.loci]
+local_origin = "data/media/loci"
+remote_origin = ""
 
-[formats.ipynb]
-origin = "local"
-base = "papers"
-ext = "ipynb"
+[data.media.renders]
+local_origin = "data/media/renders"
+remote_origin = "https://media.cohesian.org"
 
-[formats.loci]
-origin = "local"    # pure-python scene scripts (committed)
-base = "loci"
-ext = "py"
-
-[formats.media]
-origin = "remote"   # bucket / CDN; not stored in git
-base = "https://media.cohesian.org"
-ext = "mp4"
+[data.documents]
+local_origin = "data/documents"
+remote_origin = ""
 ```
 
-A node's content is located as `<base>/<relative path>/<id>.<ext>`, where each format
-declares both its `base` domain dir and its file `ext`:
+A node's content is located as `<origin>/<relative path>/<id>.<ext>`:
 
-| Format | Origin | Ext | Example for `T-computer-science/L-functions/F-01-function` |
-|--------|--------|-----|-----------------------------------------------------------|
-| `papers` | local | `md` | `papers/T-computer-science/L-functions/F-01-function.md` |
-| `ipynb` | local | `ipynb` | `papers/T-computer-science/L-functions/F-01-function.ipynb` |
-| `loci` | local | `py` | `loci/T-computer-science/L-functions/F-01-function.py` |
-| `media` | remote | `mp4` | `https://media.cohesian.org/T-computer-science/L-functions/F-01-function.mp4` |
+| Tree | Local origin | Remote origin | Example ext |
+|------|--------------|---------------|-------------|
+| `data.documents` | `data/documents/` | — | `md`, `ipynb` |
+| `data.media.loci` | `data/media/loci/` | — | `py` |
+| `data.media.renders` | `data/media/renders/` | `https://media.cohesian.org` | `mp4` |
 
-- **Local** origins are checked on disk by the validator.
-- **Remote** origins are trusted (declaring the format is enough; the binary lives in the bucket and is gitignored).
-- Add a new format (e.g. `pdf`, `slides`) by adding a `[formats.<name>]` block with its `base` + `ext` — no tree changes needed.
+- **Local** origins are checked on disk by the validator (except renders — mp4s are gitignored build artifacts).
+- **Remote** origins are trusted at read time (declaring `media.renders` is enough; the binary lives on the CDN).
+- Add a new extension under the appropriate tree in the leaf's `data` block; add a new tree by adding a `[data.<path>]` block in `k-graph.toml`.
 
 ---
 
@@ -151,7 +157,7 @@ declares both its `base` domain dir and its file `ext`:
 `tools/validate_kgraph.py` checks the whole k-graph:
 
 - every `edges.g` / `edges.l` / `edges.r` target resolves to a real sibling node;
-- every leaf `formats` entry has its content file present in the right domain dir.
+- every leaf `data` entry has its content file present under the tree's `local_origin` (renders optional).
 
 ```bash
 python tools/validate_kgraph.py   # requires pyyaml
@@ -163,7 +169,7 @@ python tools/validate_kgraph.py   # requires pyyaml
 
 - `README.md` — entry point (renders on GitHub)
 - `docs/` — project documentation
-- `k-graph.toml` — format resolution config (origins / bases)
+- `k-graph.toml` — data tree resolution config (local / remote origins)
 - `tools/` — k-graph tooling (validator)
 - `LICENSE`, `LICENSE-CONTENT`, `NOTICE`, `ATTRIBUTION.md` — legal and attribution
 
@@ -171,11 +177,10 @@ python tools/validate_kgraph.py   # requires pyyaml
 
 ## Reading philosophy
 
-Each exploration is a single leaf node (`F` or `Fd`) that may expose the same idea in several formats, listed in its `formats`.
+Each exploration is a single leaf node (`F` or `Fd`) that may expose the same idea in several trees, listed in its `data` block.
 
-- **Paper** (`papers`, `.md`) — readable without running code.
-- **Notebook** (`ipynb`, `.ipynb` in `papers/`) — interactive: code, diagrams, plots, experiments.
-- **Scene** (`loci`, `.py` in `loci/`) — the lazy source of a video: a tiny, versioned loci/manim script.
-- **Video** (`media`, `.mp4`) — a relatable, narrated take, rendered from the loci scene.
+- **Documents** (`data/documents/`) — `.md` papers readable without running code; `.ipynb` notebooks for interactive work.
+- **Loci** (`data/media/loci/`) — `.py` scene scripts: the lazy source of a video.
+- **Renders** (`data/media/renders/`) — `.mp4` narrated takes, built from the loci scene (same k-graph path, different tree root).
 
-Prefer **`F-*`** for production-ready material; use **`Fd-*`** for intentional drafts. Formats are additive: a node starts with whatever exists and gains more over time.
+Prefer **`F-*`** for production-ready material; use **`Fd-*`** for intentional drafts. Data is additive: a node starts with whatever exists and gains more over time.

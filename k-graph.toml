@@ -1,39 +1,32 @@
 # K-graph resolution config.
 #
-# k-graph/ nodes are origin-agnostic: a leaf only declares which formats it has
-# (its `formats` list). This file says WHERE each format resolves and WHICH file
-# extension it maps to.
+# k-graph/ nodes are origin-agnostic: a leaf only declares which data it holds
+# (its `data` block). This file says WHERE each content tree resolves.
 #
-# Formats are named after the content domain that holds them (papers / loci /
-# media) rather than a bare extension, so a leaf's `formats` reads as "there is
-# something in that space". Each domain mirrors the same k-graph tree.
+# Three mirrored trees share the same k-graph relative path:
+#     data/documents/…          readable content (.md, .ipynb)
+#     data/media/loci/…         scene scripts (.py, committed)
+#     data/media/renders/…      rendered videos (.mp4, gitignored / remote)
 #
 # A node's content is located as:
-#     <base>/<relative path>/<id>.<ext>
+#     <local_origin>/<relative path>/<id>.<ext>
 #
 # where <relative path> is the node's path inside k-graph/ (without the id),
 # e.g. k-graph/T-computer-science/L-composite/F-01-carbon-binder.yaml
-#   ->  relative path       = T-computer-science/L-composite
-#   ->  papers (local)      = papers/T-computer-science/L-composite/F-01-carbon-binder.md
-#   ->  loci   (local)      = loci/T-computer-science/L-composite/F-01-carbon-binder.py
-#   ->  media  (remote)     = https://media.cohesian.org/T-computer-science/L-composite/F-01-carbon-binder.mp4
+#   ->  relative path              = T-computer-science/L-composite
+#   ->  data/documents             = data/documents/T-computer-science/L-composite/F-01-carbon-binder.md
+#   ->  data/media/loci            = data/media/loci/T-computer-science/L-composite/F-01-carbon-binder.py
+#   ->  data/media/renders (local) = data/media/renders/T-computer-science/L-composite/F-01-carbon-binder.mp4
+#   ->  data/media/renders (remote)= https://media.cohesian.org/T-computer-science/L-composite/F-01-carbon-binder.mp4
 
-[formats.papers]
-origin = "local"    # resolved against the repo root
-base = "papers"
-ext = "md"
+[data.media.loci]
+local_origin = "data/media/loci"
+remote_origin = ""
 
-[formats.ipynb]
-origin = "local"
-base = "papers"
-ext = "ipynb"
+[data.media.renders]
+local_origin = "data/media/renders"
+remote_origin = "https://media.cohesian.org"
 
-[formats.loci]
-origin = "local"    # pure-python scene scripts (source of truth, committed)
-base = "loci"
-ext = "py"
-
-[formats.media]
-origin = "remote"   # rendered videos live in a bucket / CDN; not stored in git
-base = "https://media.cohesian.org"
-ext = "mp4"
+[data.documents]
+local_origin = "data/documents"
+remote_origin = ""

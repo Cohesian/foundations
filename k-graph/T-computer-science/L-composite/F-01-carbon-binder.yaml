@@ -1,10 +1,14 @@
 title: Carbon Binder
 description: A common binder interface that generates many structures.
 kind: F
-formats:
-  - papers
-  - loci
-  - media
+data:
+  documents:
+    - md
+  media:
+    loci:
+      - py
+    renders:
+      - mp4
 edges:
   g: []
   l:

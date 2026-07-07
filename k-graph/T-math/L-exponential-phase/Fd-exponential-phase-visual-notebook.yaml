@@ -1,8 +1,9 @@
 title: Exponential phase visual notebook
 description: Exponential phase visual notebook (draft).
 kind: Fd
-formats:
-  - ipynb
+data:
+  documents:
+    - ipynb
 edges:
   g: []
   l:

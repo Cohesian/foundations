@@ -6,15 +6,15 @@ Layout:
              g = grouping (ordered children; composites),
              l = linear   (prev / next reading chain),
              r = related  (cross-links).
-           Leaves also carry a `formats` list.
-- content  resolved per format by k-graph.toml:
-             local  -> <base>/<relative path>/<id>.<ext>  (checked on disk)
-             remote -> <base>/<relative path>/<id>.<ext>  (trusted; e.g. bucket)
+           Leaves also carry a `data` block (which trees / extensions exist).
+- content  resolved per tree by k-graph.toml:
+             local_origin  -> <path>/<relative>/<id>.<ext>  (checked on disk)
+             remote_origin -> trusted for build artifacts (e.g. renders on CDN)
 
 Checks per node:
 - composite edges.g children exist (subdir or <id>.yaml);
 - leaf edges.l prev/next and edges.r targets exist among siblings;
-- leaf `formats` are configured in k-graph.toml, and local formats have their file present.
+- leaf `data` trees are configured in k-graph.toml; local trees have files present.
 
 Non-zero exit on any problem. Stdlib + pyyaml.
 """
@@ -37,6 +37,9 @@ ROOT = Path(__file__).resolve().parent.parent
 TREE = ROOT / "k-graph"
 CONFIG = ROOT / "k-graph.toml"
 
+# Trees whose local files are optional (build artifacts / gitignored).
+TRUST_LOCAL_OPTIONAL = frozenset({"data.media.renders"})
+
 problems: list[str] = []
 
 
@@ -44,12 +47,42 @@ def err(where: Path, msg: str):
     problems.append(f"{where.relative_to(ROOT)}: {msg}")
 
 
-def load_formats() -> dict:
+def load_data_cfg() -> dict:
     if not CONFIG.exists():
         sys.exit(f"config not found: {CONFIG}")
     with CONFIG.open("rb") as fh:
-        cfg = tomllib.load(fh)
-    return cfg.get("formats", {})
+        return tomllib.load(fh).get("data", {})
+
+
+def tree_spec(cfg: dict, tree_key: str) -> dict | None:
+    """Resolve e.g. 'data.media.loci' -> config dict (without 'data.' prefix in walk)."""
+    node = cfg
+    for part in tree_key.removeprefix("data.").split("."):
+        if not isinstance(node, dict):
+            return None
+        node = node.get(part)
+        if node is None:
+            return None
+    return node if isinstance(node, dict) else None
+
+
+def iter_data_entries(data: dict) -> list[tuple[str, list[str]]]:
+    """Yield (tree_key, extensions) from a leaf's `data` block."""
+    if not data:
+        return []
+    out: list[tuple[str, list[str]]] = []
+    docs = data.get("documents")
+    if docs is not None:
+        exts = docs if isinstance(docs, list) else [docs]
+        out.append(("data.documents", exts))
+    media = data.get("media") or {}
+    if not isinstance(media, dict):
+        return out
+    for branch in ("loci", "renders"):
+        exts = media.get(branch)
+        if exts is not None:
+            out.append((f"data.media.{branch}", exts if isinstance(exts, list) else [exts]))
+    return out
 
 
 def sibling_ids(tree_dir: Path) -> set[str]:
@@ -74,28 +107,37 @@ def check_edges(where: Path, node: dict, siblings: set[str], composite: bool):
             err(where, f"edges.r '{t}' not found among siblings")
 
 
-def check_formats(leaf: Path, node: dict, rel: Path, fmt_cfg: dict):
-    formats = node.get("formats") or []
-    if not formats:
-        err(leaf, "no formats listed")
+def check_data(leaf: Path, node: dict, rel: Path, data_cfg: dict):
+    data = node.get("data")
+    if not data:
+        err(leaf, "no data block")
+        return
     node_id = leaf.stem
-    for fmt in formats:
-        spec = fmt_cfg.get(fmt)
+    entries = iter_data_entries(data)
+    if not entries:
+        err(leaf, "data block is empty")
+        return
+    for tree_key, exts in entries:
+        spec = tree_spec(data_cfg, tree_key)
         if spec is None:
-            err(leaf, f"format '{fmt}' not configured in k-graph.toml")
+            err(leaf, f"tree '{tree_key}' not configured in k-graph.toml")
             continue
-        ext = spec.get("ext", fmt)
-        if spec.get("origin") == "local":
-            target = ROOT / spec.get("base", "") / rel / f"{node_id}.{ext}"
-            if not target.exists():
-                err(leaf, f"format '{fmt}' -> missing {target.relative_to(ROOT)}")
-        # remote formats are trusted (resolved at read time against the base URL)
+        local = (spec.get("local_origin") or "").strip()
+        if not local:
+            continue
+        for ext in exts:
+            target = ROOT / local / rel / f"{node_id}.{ext}"
+            if target.exists():
+                continue
+            if tree_key in TRUST_LOCAL_OPTIONAL:
+                continue  # renders are gitignored; declaration is enough
+            err(leaf, f"data.{tree_key} [{ext}] -> missing {target.relative_to(ROOT)}")
 
 
 def main():
     if not TREE.exists():
         sys.exit(f"k-graph dir not found: {TREE}")
-    fmt_cfg = load_formats()
+    data_cfg = load_data_cfg()
 
     n_leaves = n_composites = 0
     for dir_path in [TREE, *[p for p in TREE.rglob("*") if p.is_dir()]]:
@@ -118,7 +160,7 @@ def main():
             if node.get("kind") not in ("F", "Fd"):
                 err(leaf, f"leaf kind must be F/Fd, got {node.get('kind')}")
             check_edges(leaf, node, siblings, composite=False)
-            check_formats(leaf, node, rel, fmt_cfg)
+            check_data(leaf, node, rel, data_cfg)
 
     if problems:
         print(f"FAIL: {len(problems)} problem(s):\n")
