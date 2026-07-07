@@ -1,10 +1,14 @@
 title: Type Binder
 description: Types as a composite binder surface.
 kind: F
-formats:
-  - papers
-  - loci
-  - media
+data:
+  documents:
+    - md
+  media:
+    loci:
+      - py
+    renders:
+      - mp4
 edges:
   g: []
   l:

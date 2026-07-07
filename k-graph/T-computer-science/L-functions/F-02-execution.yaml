@@ -1,8 +1,9 @@
 title: Execution
 description: Execution as the interface admitting many executable forms.
 kind: F
-formats:
-  - papers
+data:
+  documents:
+    - md
 edges:
   g: []
   l:

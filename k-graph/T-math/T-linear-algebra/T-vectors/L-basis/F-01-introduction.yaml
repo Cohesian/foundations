@@ -1,8 +1,9 @@
 title: Introduction
 description: Basis and coordinates (work in progress).
 kind: F
-formats:
-  - papers
+data:
+  documents:
+    - md
 edges:
   g: []
   l:

@@ -9,7 +9,7 @@ interface, and structure then scales along orthogonal axes —
     n-axes      = each domain adds its own independent directions
 — while everything keeps returning to `C`.
 
-Render:  python loci/render.py T-computer-science/L-composite/F-01-carbon-binder.py
+Render:  python render.py T-computer-science/L-composite/F-01-carbon-binder.py
 """
 from __future__ import annotations
 

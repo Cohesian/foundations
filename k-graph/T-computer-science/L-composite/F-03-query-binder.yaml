@@ -1,10 +1,14 @@
 title: Query Binder
 description: Query structure as a binder specialization.
 kind: F
-formats:
-  - papers
-  - loci
-  - media
+data:
+  documents:
+    - md
+  media:
+    loci:
+      - py
+    renders:
+      - mp4
 edges:
   g: []
   l:
