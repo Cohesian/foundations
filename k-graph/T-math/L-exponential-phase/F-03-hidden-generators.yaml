@@ -1,8 +1,10 @@
 title: Hidden Generators
-description: When a phase step lands in the naturals, it becomes a new local branching base.
+description: When a phase step lands in the naturals, it becomes a new local branching
+  base.
 kind: F
-formats:
-  - papers
+data:
+  documents:
+    - md
 edges:
   g: []
   l:

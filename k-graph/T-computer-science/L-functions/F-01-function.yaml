@@ -1,8 +1,9 @@
 title: Functions
 description: One lens on functions as bounded executable nodes.
 kind: F
-formats:
-  - papers
+data:
+  documents:
+    - md
 edges:
   g: []
   l:

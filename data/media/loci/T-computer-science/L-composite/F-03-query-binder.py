@@ -10,7 +10,7 @@ Grammar:  q ::= l | n{q} | c[q_1,...,q_n].
 Worked query:
     chi = a[ e(status,"open"), n{e(archived)}, o[ e(priority), g(score) ] ] : Q
 
-Render:  python loci/render.py T-computer-science/L-composite/F-03-query-binder.py
+Render:  python render.py T-computer-science/L-composite/F-03-query-binder.py
 """
 from __future__ import annotations
 
