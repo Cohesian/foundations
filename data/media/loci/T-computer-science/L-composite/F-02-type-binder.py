@@ -9,7 +9,7 @@ Grammar:  T ::= t | d{T}.
 The family unfolds as vertical decorator stacks (depth) across a horizontal
 row of type-shapes (breadth) — all admitted by the one binder T.
 
-Render:  python loci/render.py T-computer-science/L-composite/F-02-type-binder.py
+Render:  python render.py T-computer-science/L-composite/F-02-type-binder.py
 """
 from __future__ import annotations
 

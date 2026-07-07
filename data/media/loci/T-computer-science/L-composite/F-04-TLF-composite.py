@@ -9,7 +9,7 @@ T and L are composites, F is a leaf:  K ::= F | c[K_1,...,K_n], c ∈ {T,L}.
 E_l (linear reading) and E_r (related) are leaf-only overlays drawn on the
 SAME fixed nodes — adding them never moves a node.
 
-Render:  python loci/render.py T-computer-science/L-composite/F-04-TLF-composite.py
+Render:  python render.py T-computer-science/L-composite/F-04-TLF-composite.py
 """
 from __future__ import annotations
 

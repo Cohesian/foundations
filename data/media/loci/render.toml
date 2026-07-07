@@ -1,0 +1,10 @@
+# Render paths — edit here when the output tree moves or is renamed.
+#
+# Paths are relative to this file's directory (data/media/loci/) unless absolute.
+# render.py reads this on every run; CLI --dst-root / --src-root override for one-offs.
+#
+# Rename renders/ → videos/? Change dst_root below:
+#     dst_root = "../videos"
+
+dst_root = "../renders"
+src_root = "."

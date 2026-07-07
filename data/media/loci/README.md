@@ -1,22 +1,22 @@
 # loci — k-graph render project
 
 Pure-python [loci](https://github.com/Cohesian/library) + [Manim](https://www.manim.community/)
-scene scripts that animate k-graph leaf nodes. This directory holds **only the
-scripts**; rendered videos land in the sibling **`media/`** domain.
+scene scripts that animate k-graph leaf nodes. This tree holds **only the
+scripts**; rendered videos land in the sibling **`data/media/renders/`** tree.
 
-Two content domains mirror the same k-graph tree (just like `papers/`):
+Three content trees mirror the same k-graph path:
 
 ```
-k-graph/T-computer-science/L-composite/F-01-carbon-binder.yaml   ← node (metadata)
-papers/ T-computer-science/L-composite/F-01-carbon-binder.md     ← md content
-loci/   T-computer-science/L-composite/F-01-carbon-binder.py     ← scene source   (committed)
-media/  T-computer-science/L-composite/F-01-carbon-binder.mp4    ← render output  (gitignored)
+k-graph/…/F-01-carbon-binder.yaml              ← node (metadata)
+data/documents/…/F-01-carbon-binder.md         ← readable content
+data/media/loci/…/F-01-carbon-binder.py        ← scene source   (committed)
+data/media/renders/…/F-01-carbon-binder.mp4    ← render output  (gitignored)
 ```
 
 The **`.py` is the source of truth**: tiny, diff-able, lazily runnable. The
-**`.mp4` is a build artifact** — regenerated on demand and served from the media
-bucket (`k-graph.toml` declares the `media` format as a `remote` origin). Only
-the paths we actually animate are mirrored.
+**`.mp4` is a build artifact** — regenerated on demand and served from the
+remote renders origin (`k-graph.toml` → `data.media.renders.remote_origin`).
+Only the paths we actually animate are mirrored.
 
 ## Setup
 
@@ -31,13 +31,13 @@ to exist on that repo. The tag marks a whole-repo commit; `subdirectory = "loci"
 in `pyproject.toml` selects the package folder. To cut it:
 
 ```bash
-git -C ../../library tag v0.1.0 && git -C ../../library push origin v0.1.0
+git -C ../../../../library tag v0.1.0 && git -C ../../../../library push origin v0.1.0
 ```
 
 Then, from this folder:
 
 ```bash
-cd loci
+cd data/media/loci
 uv sync          # creates .venv, resolves deps, writes uv.lock (commit it)
 ```
 
@@ -46,15 +46,41 @@ commented line in `pyproject.toml`) and re-run `uv sync`.
 
 ## Render
 
-```bash
-uv run render.py T-computer-science/L-composite/F-01-carbon-binder.py       # -q h (1080p) default
-uv run render.py T-computer-science/L-composite/F-01-carbon-binder.py -q m  # 720p, faster iteration
+Output paths live in **`render.toml`** at this project root — edit `dst_root`
+when the output tree moves or is renamed. Paths are relative to
+`data/media/loci/` unless absolute.
+
+**Priority:** `--src-root` / `--dst-root` (CLI) → `render.toml` → built-in default.
+
+```toml
+# render.toml
+src_root = "."              # scene scripts tree root
+dst_root = "../renders"     # output tree root (rename freely, e.g. "../videos")
 ```
 
-`render.py` renders into `./.build/` (gitignored) and copies the final mp4 to
-the sibling `media/` domain at the **same relative path** as the script. If a
-file has one `Scene` subclass it is picked automatically; otherwise pass the
-class name explicitly.
+Then just:
+
+```bash
+uv run render.py T-computer-science/L-composite/F-01-carbon-binder.py
+```
+
+One-off override:
+
+```bash
+uv run render.py scene.py --dst-root ../videos
+```
+
+Before manim runs, the script prints src + dst:
+
+```
+  config:   render.toml
+  src_root: …/data/media/loci
+  src:      …/F-01-carbon-binder.py
+  dst_root: …/data/media/renders
+  dst:      …/F-01-carbon-binder.mp4
+```
+
+Manim scratch goes to `./.build/` (gitignored); only the final mp4 is copied to `dst_root`.
 
 ## Convention
 

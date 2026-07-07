@@ -8,7 +8,7 @@ Use it for:
 - PR title and description drafts (copy-paste into GitHub)
 - Scratch checklists you do not want in the k-graph or `docs/`
 
-**Permanent spec** stays in the repo: [docs/KGRAPH.md](../docs/KGRAPH.md), structure under [k-graph/](../k-graph/), content under [papers/](../papers/).
+**Permanent spec** stays in the repo: [docs/KGRAPH.md](../docs/KGRAPH.md), structure under [k-graph/](../k-graph/), content under [data/documents/](../data/documents/).
 
 ## Suggested filenames
 
