@@ -6,7 +6,7 @@ __pycache__/
 *.py[cod]
 .venv/
 
-# Rendered videos live in the sibling renders/ tree, never here.
+# Rendered videos live in the sibling videos/ tree, never here.
 *.mp4
 *.mov
 *.webm

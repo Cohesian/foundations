@@ -4,7 +4,7 @@ Index of material in the k-graph. Layout, naming, and node props: [KGRAPH.md](KG
 
 **Reading order** follows each composite’s **`props.yaml`** `edges.g` list in [`k-graph/`](../k-graph/) — not directory sort or filename prefixes.
 
-Structure: [k-graph/](../k-graph/) · content in [data/](../data/) (`documents/`, `media/loci/`, `media/renders/`) · root order in [k-graph/props.yaml](../k-graph/props.yaml).
+Structure: [k-graph/](../k-graph/) · content in [data/](../data/) (`documents/`, `media/loci/`, `media/videos/`) · root order in [k-graph/props.yaml](../k-graph/props.yaml).
 
 ---
 

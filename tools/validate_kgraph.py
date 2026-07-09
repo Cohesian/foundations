@@ -2,21 +2,14 @@
 """Validate the k-graph: k-graph/ (structure) + content resolved via k-graph.toml.
 
 Layout:
-- k-graph/ yaml-only. Every node carries `edges` with three axes:
-             g = grouping (ordered children; composites),
-             l = linear   (prev / next reading chain),
-             r = related  (cross-links).
-           Leaves also carry a `data` block (which trees / extensions exist).
-- content  resolved per tree by k-graph.toml:
-             local_origin  -> <path>/<relative>/<id>.<ext>  (checked on disk)
-             remote_origin -> trusted for build artifacts (e.g. renders on CDN)
+- k-graph/ yaml-only. Leaves carry `data` (abstract trees + extensions).
+- k-graph.toml defines infrastructure sources (origin + mapping) and per-tree
+  reachable sources. Leaf yaml never names a concrete host.
 
 Checks per node:
-- composite edges.g children exist (subdir or <id>.yaml);
-- leaf edges.l prev/next and edges.r targets exist among siblings;
-- leaf `data` trees are configured in k-graph.toml; local trees have files present.
-
-Non-zero exit on any problem. Stdlib + pyyaml.
+- composite edges.g / edges.l / edges.r resolve;
+- path + local source: file on disk (videos/mp4 optional — gitignored builds);
+- hash source: map file contains hash/ref for the key.
 """
 from __future__ import annotations
 
@@ -24,21 +17,27 @@ import sys
 from pathlib import Path
 
 try:
-    import tomllib
-except ModuleNotFoundError:
-    sys.exit("Python 3.11+ (tomllib) required")
-
-try:
     import yaml
 except ModuleNotFoundError:
     sys.exit("pyyaml is required: pip install pyyaml")
 
-ROOT = Path(__file__).resolve().parent.parent
-TREE = ROOT / "k-graph"
-CONFIG = ROOT / "k-graph.toml"
+from kgraph_infra import (
+    CONFIG,
+    ROOT,
+    hash_for_key,
+    infra_cfg,
+    load_config,
+    mapper_path,
+    node_key,
+    rel_path,
+    sources,
+    tree_cfg,
+    tree_root,
+)
 
-# Trees whose local files are optional (build artifacts / gitignored).
-TRUST_LOCAL_OPTIONAL = frozenset({"data.media.renders"})
+TREE = ROOT / "k-graph"
+
+PATH_OPTIONAL = frozenset({"data.media.videos"})
 
 problems: list[str] = []
 
@@ -47,27 +46,7 @@ def err(where: Path, msg: str):
     problems.append(f"{where.relative_to(ROOT)}: {msg}")
 
 
-def load_data_cfg() -> dict:
-    if not CONFIG.exists():
-        sys.exit(f"config not found: {CONFIG}")
-    with CONFIG.open("rb") as fh:
-        return tomllib.load(fh).get("data", {})
-
-
-def tree_spec(cfg: dict, tree_key: str) -> dict | None:
-    """Resolve e.g. 'data.media.loci' -> config dict (without 'data.' prefix in walk)."""
-    node = cfg
-    for part in tree_key.removeprefix("data.").split("."):
-        if not isinstance(node, dict):
-            return None
-        node = node.get(part)
-        if node is None:
-            return None
-    return node if isinstance(node, dict) else None
-
-
 def iter_data_entries(data: dict) -> list[tuple[str, list[str]]]:
-    """Yield (tree_key, extensions) from a leaf's `data` block."""
     if not data:
         return []
     out: list[tuple[str, list[str]]] = []
@@ -78,7 +57,7 @@ def iter_data_entries(data: dict) -> list[tuple[str, list[str]]]:
     media = data.get("media") or {}
     if not isinstance(media, dict):
         return out
-    for branch in ("loci", "renders"):
+    for branch in ("loci", "videos"):
         exts = media.get(branch)
         if exts is not None:
             out.append((f"data.media.{branch}", exts if isinstance(exts, list) else [exts]))
@@ -107,37 +86,69 @@ def check_edges(where: Path, node: dict, siblings: set[str], composite: bool):
             err(where, f"edges.r '{t}' not found among siblings")
 
 
-def check_data(leaf: Path, node: dict, rel: Path, data_cfg: dict):
+def check_data(leaf: Path, node: dict, rel: Path, cfg: dict):
     data = node.get("data")
     if not data:
         err(leaf, "no data block")
         return
     node_id = leaf.stem
+    key = node_key(rel, node_id)
     entries = iter_data_entries(data)
     if not entries:
         err(leaf, "data block is empty")
         return
+
     for tree_key, exts in entries:
-        spec = tree_spec(data_cfg, tree_key)
+        tree_name = tree_key.removeprefix("data.")
+        spec = tree_cfg(cfg, tree_name)
         if spec is None:
             err(leaf, f"tree '{tree_key}' not configured in k-graph.toml")
             continue
-        local = (spec.get("local_origin") or "").strip()
-        if not local:
+
+        reachable = sources(spec)
+        if not reachable:
+            err(leaf, f"tree '{tree_key}' has no sources")
             continue
-        for ext in exts:
-            target = ROOT / local / rel / f"{node_id}.{ext}"
-            if target.exists():
+
+        root = tree_root(tree_name)
+        for src in reachable:
+            infra = infra_cfg(cfg, src)
+            if not infra:
+                err(leaf, f"source '{src}' not in [infrastructure]")
                 continue
-            if tree_key in TRUST_LOCAL_OPTIONAL:
-                continue  # renders are gitignored; declaration is enough
-            err(leaf, f"data.{tree_key} [{ext}] -> missing {target.relative_to(ROOT)}")
+            mapping = infra.get("mapping", "path")
+
+            if mapping == "path" and src == "local":
+                for ext in exts:
+                    target = ROOT / rel_path(root, key, ext)
+                    if target.exists():
+                        continue
+                    if tree_key in PATH_OPTIONAL:
+                        continue
+                    err(leaf, f"{tree_key} local [{ext}] -> missing {target.relative_to(ROOT)}")
+
+            elif mapping == "hash":
+                try:
+                    path = mapper_path(infra)
+                except KeyError as exc:
+                    err(leaf, f"source '{src}': {exc}")
+                    continue
+                map_file = ROOT / path
+                if not map_file.exists():
+                    err(leaf, f"hash mapper missing: {path}")
+                    continue
+                try:
+                    hash_for_key(infra, key)
+                except KeyError as exc:
+                    err(leaf, str(exc))
 
 
 def main():
     if not TREE.exists():
         sys.exit(f"k-graph dir not found: {TREE}")
-    data_cfg = load_data_cfg()
+    if not CONFIG.exists():
+        sys.exit(f"config not found: {CONFIG}")
+    cfg = load_config()
 
     n_leaves = n_composites = 0
     for dir_path in [TREE, *[p for p in TREE.rglob("*") if p.is_dir()]]:
@@ -160,7 +171,7 @@ def main():
             if node.get("kind") not in ("F", "Fd"):
                 err(leaf, f"leaf kind must be F/Fd, got {node.get('kind')}")
             check_edges(leaf, node, siblings, composite=False)
-            check_data(leaf, node, rel, data_cfg)
+            check_data(leaf, node, rel, cfg)
 
     if problems:
         print(f"FAIL: {len(problems)} problem(s):\n")

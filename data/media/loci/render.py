@@ -52,7 +52,7 @@ def resolve_root(path: str | Path, *, anchor: Path) -> Path:
 
 def configured_roots(cfg: dict) -> tuple[Path, Path]:
     src = resolve_root(cfg.get("src_root", "."), anchor=HERE)
-    dst = resolve_root(cfg.get("dst_root", "../renders"), anchor=HERE)
+    dst = resolve_root(cfg.get("dst_root", "../videos"), anchor=HERE)
     return src, dst
 
 
