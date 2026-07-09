@@ -1,0 +1,16 @@
+# Hash map: k-graph key -> opaque token for [infrastructure.youtube]
+#
+# Key = <k-graph-relative-path>/<leaf-id>
+# hash = video id (placed via pattern, e.g. /watch?v={hash})
+
+["T-computer-science/L-composite/F-01-carbon-binder"]
+hash = "REPLACE_ME"
+
+["T-computer-science/L-composite/F-02-type-binder"]
+hash = "REPLACE_ME"
+
+["T-computer-science/L-composite/F-03-query-binder"]
+hash = "REPLACE_ME"
+
+["T-computer-science/L-composite/F-04-TLF-composite"]
+hash = "REPLACE_ME"

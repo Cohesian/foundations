@@ -17,7 +17,7 @@ foundations/
     documents/          ← .md and .ipynb
     media/
       loci/             ← .py scene scripts (source of truth, committed)
-      renders/          ← .mp4 outputs (build artifacts, gitignored / remote)
+      videos/           ← .mp4 builds (gitignored); hash maps live in maps/ at repo root
 ```
 
 All trees share the **same relative path** as the node inside `k-graph/`. A node's content is found by convention:
@@ -28,7 +28,7 @@ All trees share the **same relative path** as the node inside `k-graph/`. A node
 
 So `k-graph/T-math/L-division/F-01-introduction.yaml` has its document at
 `data/documents/T-math/L-division/F-01-introduction.md`, and (once produced) its
-render at `data/media/renders/T-math/L-division/F-01-introduction.mp4`.
+render at `data/media/videos/T-math/L-division/F-01-introduction.mp4`.
 
 Content files carry **no frontmatter or metadata** — they are pure content. All metadata lives in `k-graph/`.
 
@@ -77,22 +77,20 @@ edges:
   r: []
 ```
 
-A leaf with documents, a loci scene, and a render:
+A leaf with documents, a loci scene, and a video:
 
 ```yaml
 data:
   media:
     loci:
       - py
-    renders:
+    videos:
       - mp4
-  documents:
-    - md
 ```
 
-- Each tree (`documents`, `media.loci`, `media.renders`) lists the **extensions** present for that node — there can be more than one per tree (e.g. `documents: [md, ipynb]`).
-- Data is present **iff** it is listed — consumers never probe `data/` to discover what exists.
-- Add a tree when content is produced (e.g. add `media.loci` + `media.renders` once a scene and its video exist), remove it if it goes away.
+- Each tree lists **extensions** present for that node (`md`, `py`, `mp4`, …).
+- Leaf yaml never names a concrete host (YouTube, S3, …) — only abstract data.
+- Add a tree when content is produced; routing lives in `k-graph.toml`.
 
 ### Composite — `props.yaml`
 
@@ -121,34 +119,57 @@ Children are leaf ids or sub-directory names. Order is pedagogical, not alphabet
 
 ## Resolution config — `k-graph.toml`
 
-`k-graph/` nodes stay origin-agnostic (a leaf only declares *what* data it holds).
-Where each tree resolves is defined once in [`k-graph.toml`](../k-graph.toml):
+`k-graph/` leaves stay origin-agnostic. [`k-graph.toml`](../k-graph.toml) defines
+**infrastructure sources** (origin + mapping) and which sources each data tree can reach:
 
 ```toml
-[data.media.loci]
-local_origin = "data/media/loci"
-remote_origin = ""
+[infrastructure.local]
+mapping = "path"
 
-[data.media.renders]
-local_origin = "data/media/renders"
-remote_origin = "https://media.cohesian.org"
+# [infrastructure.s3bucket]
+# origin = "https://media.cohesian.org"
+# mapping = "path"
+# pattern = "{path}"
+
+[infrastructure.youtube]
+origin = "https://www.youtube.com"
+mapping = "hash"
+pattern = "/watch?v={hash}"
+mapper = "maps/youtube.toml"
 
 [data.documents]
-local_origin = "data/documents"
-remote_origin = ""
+sources = ["local"]  # , "s3bucket"
+
+[data.media.loci]
+sources = ["local"]
+
+[data.media.videos]
+sources = ["local", "youtube"]
+serve = "youtube"
 ```
 
-A node's content is located as `<origin>/<relative path>/<id>.<ext>`:
+**Mapping**
 
-| Tree | Local origin | Remote origin | Example ext |
-|------|--------------|---------------|-------------|
-| `data.documents` | `data/documents/` | — | `md`, `ipynb` |
-| `data.media.loci` | `data/media/loci/` | — | `py` |
-| `data.media.renders` | `data/media/renders/` | `https://media.cohesian.org` | `mp4` |
+| Kind | Resolve | Example |
+|------|---------|---------|
+| `path` | `origin` + `pattern` with `{path}` | local: repo file |
+| `hash` | lookup key in infra `mapper` → `origin` + `pattern` with `{hash}` | YouTube watch URL |
 
-- **Local** origins are checked on disk by the validator (except renders — mp4s are gitignored build artifacts).
-- **Remote** origins are trusted at read time (declaring `media.renders` is enough; the binary lives on the CDN).
-- Add a new extension under the appropriate tree in the leaf's `data` block; add a new tree by adding a `[data.<path>]` block in `k-graph.toml`.
+Path segment is always `<tree-root>/<k-graph-key>.<ext>` (tree root derived from tree name).
+
+Hash map (`maps/youtube.toml`, referenced by `[infrastructure.youtube]`):
+
+```toml
+["T-computer-science/L-composite/F-01-carbon-binder"]
+hash = "dQw4w9WgXcQ"
+```
+
+Change `hash` when a video moves — leaf yaml untouched.
+
+```bash
+python tools/resolve_kgraph.py media.videos T-computer-science/L-composite/F-01-carbon-binder
+python tools/resolve_kgraph.py media.videos T-computer-science/L-composite/F-01-carbon-binder --source local
+```
 
 ---
 
@@ -157,7 +178,8 @@ A node's content is located as `<origin>/<relative path>/<id>.<ext>`:
 `tools/validate_kgraph.py` checks the whole k-graph:
 
 - every `edges.g` / `edges.l` / `edges.r` target resolves to a real sibling node;
-- every leaf `data` entry has its content file present under the tree's `local_origin` (renders optional).
+- path + local source: local files on disk (videos/mp4 optional — gitignored builds);
+- hash source: map file contains `hash` (or `ref`) for each key that declares the tree.
 
 ```bash
 python tools/validate_kgraph.py   # requires pyyaml
@@ -169,8 +191,8 @@ python tools/validate_kgraph.py   # requires pyyaml
 
 - `README.md` — entry point (renders on GitHub)
 - `docs/` — project documentation
-- `k-graph.toml` — data tree resolution config (local / remote origins)
-- `tools/` — k-graph tooling (validator)
+- `k-graph.toml` — infrastructure sources + per-tree reachable sources
+- `tools/` — validator + `resolve_kgraph.py`
 - `LICENSE`, `LICENSE-CONTENT`, `NOTICE`, `ATTRIBUTION.md` — legal and attribution
 
 ---
@@ -181,6 +203,6 @@ Each exploration is a single leaf node (`F` or `Fd`) that may expose the same id
 
 - **Documents** (`data/documents/`) — `.md` papers readable without running code; `.ipynb` notebooks for interactive work.
 - **Loci** (`data/media/loci/`) — `.py` scene scripts: the lazy source of a video.
-- **Renders** (`data/media/renders/`) — `.mp4` narrated takes, built from the loci scene (same k-graph path, different tree root).
+- **Videos** (`data/media/videos/`) — `.mp4` local builds (path mapping) or infra-projected URLs (hash mapping via `maps/youtube.toml`).
 
 Prefer **`F-*`** for production-ready material; use **`Fd-*`** for intentional drafts. Data is additive: a node starts with whatever exists and gains more over time.

@@ -34,9 +34,9 @@ temp/
 .changes/*
 !.changes/README.md
 
-# K-graph renders — video binaries live in a bucket, not in git.
-# The k-graph node yamls declare data.media.renders; renders/ mirrors loci paths.
-data/media/renders/**/*.mp4
-data/media/renders/**/*.mov
-data/media/renders/**/*.webm
-!data/media/renders/.gitkeep
+# K-graph videos — mp4 binaries live in a bucket / on YouTube, not in git.
+# Leaf yaml declares media.videos; k-graph.toml routes outgo per infra.
+data/media/videos/**/*.mp4
+data/media/videos/**/*.mov
+data/media/videos/**/*.webm
+!data/media/videos/.gitkeep
