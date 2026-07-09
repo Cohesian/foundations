@@ -2,7 +2,7 @@
 
 Pure-python [loci](https://github.com/Cohesian/library) + [Manim](https://www.manim.community/)
 scene scripts that animate k-graph leaf nodes. This tree holds **only the
-scripts**; rendered videos land in the sibling **`data/media/renders/`** tree.
+scripts**; rendered videos land in the sibling **`data/media/videos/`** tree.
 
 Three content trees mirror the same k-graph path:
 
@@ -10,12 +10,12 @@ Three content trees mirror the same k-graph path:
 k-graph/…/F-01-carbon-binder.yaml              ← node (metadata)
 data/documents/…/F-01-carbon-binder.md         ← readable content
 data/media/loci/…/F-01-carbon-binder.py        ← scene source   (committed)
-data/media/renders/…/F-01-carbon-binder.mp4    ← render output  (gitignored)
+data/media/videos/…/F-01-carbon-binder.mp4    ← render output  (gitignored)
 ```
 
 The **`.py` is the source of truth**: tiny, diff-able, lazily runnable. The
-**`.mp4` is a build artifact** — regenerated on demand and served from the
-remote renders origin (`k-graph.toml` → `data.media.renders.remote_origin`).
+**`.mp4` is a build artifact** — regenerated on demand. Consumers resolve
+videos via `k-graph.toml` outgo routes (local path mirror or flat map → YouTube, etc.).
 Only the paths we actually animate are mirrored.
 
 ## Setup
@@ -55,7 +55,7 @@ when the output tree moves or is renamed. Paths are relative to
 ```toml
 # render.toml
 src_root = "."              # scene scripts tree root
-dst_root = "../renders"     # output tree root (rename freely, e.g. "../videos")
+dst_root = "../videos"      # output tree root (matches k-graph.toml path outgo)
 ```
 
 Then just:
@@ -76,7 +76,7 @@ Before manim runs, the script prints src + dst:
   config:   render.toml
   src_root: …/data/media/loci
   src:      …/F-01-carbon-binder.py
-  dst_root: …/data/media/renders
+  dst_root: …/data/media/videos
   dst:      …/F-01-carbon-binder.mp4
 ```
 

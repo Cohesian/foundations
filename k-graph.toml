@@ -1,32 +1,36 @@
 # K-graph resolution config.
 #
-# k-graph/ nodes are origin-agnostic: a leaf only declares which data it holds
-# (its `data` block). This file says WHERE each content tree resolves.
+# k-graph/ leaves declare abstract `data` (documents, media.loci, media.videos).
+# This file defines INFRASTRUCTURE sources and which sources each data tree can reach.
 #
-# Three mirrored trees share the same k-graph relative path:
-#     data/documents/…          readable content (.md, .ipynb)
-#     data/media/loci/…         scene scripts (.py, committed)
-#     data/media/renders/…      rendered videos (.mp4, gitignored / remote)
-#
-# A node's content is located as:
-#     <local_origin>/<relative path>/<id>.<ext>
-#
-# where <relative path> is the node's path inside k-graph/ (without the id),
-# e.g. k-graph/T-computer-science/L-composite/F-01-carbon-binder.yaml
-#   ->  relative path              = T-computer-science/L-composite
-#   ->  data/documents             = data/documents/T-computer-science/L-composite/F-01-carbon-binder.md
-#   ->  data/media/loci            = data/media/loci/T-computer-science/L-composite/F-01-carbon-binder.py
-#   ->  data/media/renders (local) = data/media/renders/T-computer-science/L-composite/F-01-carbon-binder.mp4
-#   ->  data/media/renders (remote)= https://media.cohesian.org/T-computer-science/L-composite/F-01-carbon-binder.mp4
+# Each source declares:
+#   origin  — base domain or URL prefix (empty for local filesystem)
+#   mapping — path | hash
+#   pattern — how origin combines with path or hash (optional; sensible defaults)
+#   mapper  — hash-map file (required when mapping = hash); path relative to repo root
 
-[data.media.loci]
-local_origin = "data/media/loci"
-remote_origin = ""
+[infrastructure.local]
+mapping = "path"
 
-[data.media.renders]
-local_origin = "data/media/renders"
-remote_origin = "https://media.cohesian.org"
+# [infrastructure.s3bucket]
+# origin = "https://media.cohesian.org"
+# mapping = "path"
+# pattern = "{path}"
+
+[infrastructure.youtube]
+origin = "https://www.youtube.com"
+mapping = "hash"
+pattern = "/watch?v={hash}"
+mapper = "maps/youtube.toml"
+
+# --- data trees: reachable sources ---------------------------------------------
 
 [data.documents]
-local_origin = "data/documents"
-remote_origin = ""
+sources = ["local"]  # , "s3bucket"
+
+[data.media.loci]
+sources = ["local"]
+
+[data.media.videos]
+sources = ["local", "youtube"]
+serve = "youtube"

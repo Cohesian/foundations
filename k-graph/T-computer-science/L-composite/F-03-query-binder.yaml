@@ -7,7 +7,7 @@ data:
   media:
     loci:
       - py
-    renders:
+    videos:
       - mp4
 edges:
   g: []
