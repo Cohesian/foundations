@@ -81,3 +81,11 @@ Sparse structures and ticker-like systems.
 |------|------|
 | [F-sparse_ticker_state_ledger.md](../data/documents/T-computer-science/T-mechanics/L-sparse-ticker-state/F-sparse_ticker_state_ledger.md) | Paper |
 | [F-sparse_ticker_state_ledger.ipynb](../data/documents/T-computer-science/T-mechanics/L-sparse-ticker-state/F-sparse_ticker_state_ledger.ipynb) | Notebook |
+
+### [T-networking/L-DNS](../data/documents/T-computer-science/T-networking/L-DNS/)
+
+DNS as a tree with typed attachments — domain namespace, zones, and records.
+
+| Leaf | Role |
+|------|------|
+| [F-01-introduction.md](../data/documents/T-computer-science/T-networking/L-DNS/F-01-introduction.md) | Paper |

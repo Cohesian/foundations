@@ -37,6 +37,6 @@ Formal TLF model: [F-04-TLF-composite.md](data/documents/T-computer-science/L-co
 Structure lives in [k-graph/](k-graph/); content under [data/](data/) — [documents/](data/documents/) (md, ipynb), [media/loci/](data/media/loci/) (py), [media/videos/](data/media/videos/) (mp4 / maps).
 
 - **Math** — [T-math](data/documents/T-math/) (e.g. [exponential phase](data/documents/T-math/L-exponential-phase/), [linear algebra / vectors](data/documents/T-math/T-linear-algebra/T-vectors/))
-- **Computer science** — [T-computer-science](data/documents/T-computer-science/) (e.g. [functions](data/documents/T-computer-science/L-functions/), [composite / binders](data/documents/T-computer-science/L-composite/), [sparse ticker](data/documents/T-computer-science/T-mechanics/L-sparse-ticker-state/))
+- **Computer science** — [T-computer-science](data/documents/T-computer-science/) (e.g. [functions](data/documents/T-computer-science/L-functions/), [composite / binders](data/documents/T-computer-science/L-composite/), [DNS](data/documents/T-computer-science/T-networking/L-DNS/), [sparse ticker](data/documents/T-computer-science/T-mechanics/L-sparse-ticker-state/))
 
 Full list: [docs/EXPLORATIONS.md](docs/EXPLORATIONS.md).
