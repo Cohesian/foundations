@@ -223,7 +223,7 @@ class QueryBinder(LociVoiceoverScene):
         self._act_chi_matrix()
 
     def _act_query_tree(self) -> None:
-        """Classification tree — circles for categories, squares for concretes."""
+        """Classification tree — squares for categories, circles for concretes."""
 
         Q_P = Vec(0.0, 3.15)
         L_P = Vec(-3.8, 1.95)
@@ -259,7 +259,7 @@ class QueryBinder(LociVoiceoverScene):
             narration="The binder Q has a classification tree — categories, then concretes.",
         )
         span.add(
-            Place(note("○ category   □ concrete", color=MUTED, size=17), at=Vec(4.3, 2.75), item_id="key"),
+            Place(note("□ category   ○ concrete", color=MUTED, size=17), at=Vec(4.3, 2.75), item_id="key"),
             wait=MIN_WAIT * 0.5,
         )
         span.add(PatchNodeStyle(root.id, emphasis(QUERY_B)), wait=MIN_WAIT,
@@ -285,8 +285,8 @@ class QueryBinder(LociVoiceoverScene):
                          narration="n negates exactly one inner predicate.")
 
         for asset, pos, item_id in legend_panel(
-            grouping="categories (○):  ℓ, c, d",
-            concrete="concretes (□):  e, g, h, a, o, n",
+            grouping="categories (□):  ℓ, c, d",
+            concrete="concretes (○):  e, g, h, a, o, n",
         ):
             span.add(Place(asset, at=pos, item_id=item_id), wait=0.12)
 

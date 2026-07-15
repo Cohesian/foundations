@@ -235,7 +235,7 @@ class TypeBinder(LociVoiceoverScene):
         self._act_category_matrix()
 
     def _act_type_tree(self) -> None:
-        """Classification tree — circles for categories, squares for concretes."""
+        """Classification tree — squares for categories, circles for concretes."""
 
         T_P = Vec(0.0, 3.15)
         T_P2 = Vec(-3.4, 2.05)
@@ -276,7 +276,7 @@ class TypeBinder(LociVoiceoverScene):
             narration="The binder T has a classification tree — categories, then concretes.",
         )
         span.add(
-            Place(note("○ category   □ concrete", color=MUTED, size=17), at=Vec(4.3, 2.75), item_id="key"),
+            Place(note("□ category   ○ concrete", color=MUTED, size=17), at=Vec(4.3, 2.75), item_id="key"),
             wait=MIN_WAIT * 0.5,
         )
         span.add(PatchNodeStyle(root.id, emphasis(TYPE_B)), wait=MIN_WAIT,
@@ -312,8 +312,8 @@ class TypeBinder(LociVoiceoverScene):
         link_then_reveal(span, d, r, kind="concrete", tex=r"r", color=FAM_D, ew=0.28, cw=0.24)
 
         for asset, pos, item_id in legend_panel(
-            grouping="categories (○):  t, c, l, d",
-            concrete="concretes (□):  i, f, b, s, m, a, r, v",
+            grouping="categories (□):  t, c, l, d",
+            concrete="concretes (○):  i, f, b, s, m, a, r, v",
         ):
             span.add(Place(asset, at=pos, item_id=item_id), wait=0.12)
 

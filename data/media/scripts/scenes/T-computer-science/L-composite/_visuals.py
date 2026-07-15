@@ -70,11 +70,19 @@ def _concealed_fill() -> FillStyle:
 
 
 def concrete_square(color: str) -> Rectangle:
-    """Concrete component — always a square."""
+    """Square concrete — used where a box is intentional (e.g. carbon composite)."""
     return Rectangle(
         width=WH,
         height=WH,
         style=patch_rectangle_style(stroke_color=color, stroke_width=SW, fill=_fill(color)),
+    )
+
+
+def concrete_disk(color: str) -> Circle:
+    """Concrete component — circle (κ labels i, f, e, g, …)."""
+    return Circle(
+        radius=R,
+        style=patch_circle_style(stroke_color=color, stroke_width=SW, fill=_fill(color)),
     )
 
 
@@ -89,10 +97,7 @@ def category_box(color: str) -> Rectangle:
 
 def tlf_concrete(color: str) -> Circle:
     """TLF concrete κ label (T, L, or F) — circle."""
-    return Circle(
-        radius=R,
-        style=patch_circle_style(stroke_color=color, stroke_width=SW, fill=_fill(color)),
-    )
+    return concrete_disk(color)
 
 
 def leaf() -> Circle:
@@ -134,9 +139,9 @@ def decorator_node() -> Circle:
 def concealed(kind: str) -> Circle | Rectangle:
     hidden = patch_circle_style(stroke_width=0, fill=_concealed_fill())
     rect_hidden = patch_rectangle_style(stroke_width=0, fill=_concealed_fill())
-    if kind in ("composite_box", "concrete", "cat_c", "cat_l"):
+    if kind in ("composite_box", "cat_c", "cat_l", "grouping"):
         return Rectangle(width=WH, height=WH, style=rect_hidden)
-    if kind in ("grouping", "topic", "lecture", "tlf"):
+    if kind in ("concrete", "topic", "lecture", "tlf", "file", "decorator"):
         return Circle(radius=R, style=hidden)
     return Circle(radius=R, style=hidden)
 
@@ -146,15 +151,16 @@ def concealed_label(tex: str, *, color: str, size: int = 28) -> Label:
 
 
 def visible_style(kind: str, color: str) -> dict[str, Any]:
-    fill_opacity = 0.18 if kind == "decorator" else (0.14 if kind in ("grouping", "topic", "lecture") else 0.28)
-    if kind in ("composite_box", "concrete", "file", "cat_c", "cat_l"):
+    category_kinds = ("composite_box", "cat_c", "cat_l", "grouping")
+    if kind in category_kinds:
         return {
             "stroke_width": SW,
             "stroke_color": color,
-            "fill": FillStyle(color, fill_opacity if kind not in ("cat_c", "cat_l") else 0.12),
+            "fill": FillStyle(color, 0.12),
         }
+    fill_opacity = 0.18 if kind == "decorator" else 0.28
     return {
-        "stroke_width": SW if kind != "grouping" else 2.4,
+        "stroke_width": SW,
         "stroke_color": color,
         "fill": FillStyle(color, fill_opacity),
     }
@@ -210,17 +216,17 @@ def add_staged(
     shape = {
         "leaf": leaf,
         "binder": lambda: binder(color),
-        "grouping": lambda: grouping_node(color),
+        "grouping": lambda: category_box(color),
         "cat_c": lambda: category_box(color),
         "cat_l": lambda: category_box(color),
         "tlf": lambda: tlf_concrete(color),
         "topic": lambda: tlf_concrete(color),
         "lecture": lambda: tlf_concrete(color),
         "file": lambda: tlf_concrete(color),
-        "concrete": lambda: concrete_square(color),
+        "concrete": lambda: concrete_disk(color),
         "composite_box": lambda: concrete_square(color),
-        "composite_disk": lambda: concrete_square(color),
-        "decorator": lambda: concrete_square(color),
+        "composite_disk": lambda: concrete_disk(color),
+        "decorator": lambda: concrete_disk(color),
     }[kind]()
     if not visible:
         shape = concealed(kind)
@@ -357,16 +363,9 @@ def outline_box(width: float, height: float, *, color: str = MUTED) -> Rectangle
     return family_box(width, height, color=color)
 
 
-def grouping_node(color: str) -> Circle:
-    """Family / union node — grouping concept, not a concrete component."""
-    return Circle(
-        radius=R * 0.9,
-        style=patch_circle_style(
-            stroke_color=color,
-            stroke_width=2.4,
-            fill=FillStyle(color, 0.09),
-        ),
-    )
+def grouping_node(color: str) -> Rectangle:
+    """Category / union node — square."""
+    return category_box(color)
 
 
 def legend_panel(*, grouping: str, concrete: str) -> list[tuple[Any, Vec, str]]:
@@ -377,7 +376,7 @@ def legend_panel(*, grouping: str, concrete: str) -> list[tuple[Any, Vec, str]]:
     ]
 
 
-# Family colors — circles for grouping, squares for concretes
+# Family colors — squares for categories, circles for concretes
 FAM_T = TYPE_B       # binder T, and t / l / c categories
 FAM_D = DECORATOR    # d category
 FAM_Q = QUERY_B      # binder Q, and ℓ / c categories
