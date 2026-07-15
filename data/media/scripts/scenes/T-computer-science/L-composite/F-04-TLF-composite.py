@@ -97,22 +97,22 @@ class TLFComposite(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "TLF Composite. Topic, Lecture, File — a labeled composite pattern "
-                "for distributing knowledge through a corpus."
+                "TLF Composite. Topic, Lecture, File — "
+                "a labeled composite pattern for distributing knowledge through a corpus."
             ),
         )
         span.add(
             Place(binder(K_CORPUS), at=Vec(0, 1.4), item_id="k"),
             Place(math(r"K", color=K_CORPUS, size=34), at=Vec(0, 1.4), item_id="kl"),
             wait=MIN_WAIT,
-            narration="The full graph has vertices V, a kind label kappa, and three edge families.",
+            narration="So the full graph has vertices V, a kind label kappa, and three edge families.",
         )
         span.add(
             Place(math(r"E_g", color=EG, size=22), at=Vec(-2.6, -0.2), item_id="eg"),
             Place(math(r"E_l", color=LINEAR, size=22), at=Vec(0.0, -0.2), item_id="el"),
             Place(math(r"E_r", color=RELATED, size=22), at=Vec(2.6, -0.2), item_id="er"),
             wait=MIN_WAIT,
-            narration="Grouping, linear reading, and related edges — orthogonal roles.",
+            narration="Grouping, linear reading, and related edges — three orthogonal roles.",
         )
         span.add(
             Place(
@@ -121,7 +121,7 @@ class TLFComposite(LociVoiceoverScene):
                 item_id="shape",
             ),
             wait=MIN_WAIT,
-            narration="Only grouping defines shape. Linear and related are traversal overlays.",
+            narration="Only grouping defines shape — linear and related are traversal overlays.",
         )
         self._play_s(span, stage, ctx)
 
@@ -143,26 +143,25 @@ class TLFComposite(LociVoiceoverScene):
 
         span.pause(
             wait=MIN_WAIT,
-            narration="Under K there are only two categories — composite and leaf. No decorators.",
+            narration="Under K, there are only two categories — composite and leaf. No decorators.",
         )
         span.add(PatchNodeStyle(root.id, emphasis(K_CORPUS)), wait=MIN_WAIT,
                   narration="Composite category c, and leaf category l.")
-
         link_then_reveal(span, root, c, kind="cat_c", tex=r"c", color=FAM_K_C, ew=0.32, cw=0.28,
-                         narration="Squares are categories. Circles are concrete kappa labels.")
+                         narration="Squares are categories; circles are the concrete kappa labels.")
         link_then_reveal(span, root, l_cat, kind="cat_l", tex=r"l", color=FAM_K_L, ew=0.32, cw=0.28)
 
         link_then_reveal(span, c, t, kind="tlf", tex=r"T", color=TOPIC, ew=0.28, cw=0.24,
-                         narration="Under c — concrete composites T and L.")
+                         narration="Under c, the concrete composites T and L.")
         link_then_reveal(span, c, lec, kind="tlf", tex=r"L", color=LECTURE, ew=0.26, cw=0.22)
         link_then_reveal(span, l_cat, f, kind="tlf", tex=r"F", color=FILE, ew=0.28, cw=0.24,
-                         narration="Under l — concrete leaf F. Files carry readable content.")
+                         narration="Under l, the concrete leaf F — files carry the readable content.")
 
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "Grammar: K is F, or composite c of many K. "
-                "Topics and lectures are composites; files are leaves — but grouping stays flexible."
+                "In grammar: K is F, or composite c of many K. "
+                "Topics and lectures are composites; files are leaves — and grouping stays flexible."
             ),
         )
         self._play_g(span, g, ctx)
@@ -219,11 +218,11 @@ class TLFComposite(LociVoiceoverScene):
         span = TickerSpan()
         span.pause(
             wait=MIN_WAIT,
-            narration="A concrete corpus: T dot math — nested topics, lectures, and files under E g.",
+            narration="Here's a concrete corpus: T dot math — nested topics, lectures, and files under E g.",
         )
         grow_down(
             span, nodes, edges, "t_math", meta,
-            narration="Solid edges are E g — the grouping projection gives the DAG shape.",
+            narration="Solid edges are E g — the grouping projection gives us the DAG shape.",
             mid=4,
         )
         span.pause(wait=MIN_WAIT * 0.5)
@@ -244,7 +243,7 @@ class TLFComposite(LociVoiceoverScene):
 
         span.pause(
             wait=MIN_WAIT,
-            narration="Traversal overlays are leaf-only. They never change grouping shape.",
+            narration="Now, traversal overlays are leaf-only — they never change the grouping shape.",
         )
 
         # Tiny name tags beside each node
@@ -265,7 +264,7 @@ class TLFComposite(LociVoiceoverScene):
         span.add(
             Place(math(r"E_l", color=LINEAR, size=16), at=Vec(-3.35, -0.55), item_id="llbl"),
             wait=MIN_WAIT * 0.3,
-            narration="Linear edges: a simple reading path, left to right across files.",
+            narration="Linear edges trace a simple reading path — left to right across the files.",
         )
 
         # Direct dotted F → F → F → F (no detour lane)
@@ -279,7 +278,7 @@ class TLFComposite(LociVoiceoverScene):
                 ),
                 wait=MIN_WAIT * 0.42,
                 narration=(
-                    "Axioms, groups, induction, map — one possible sequence. E l can vary."
+                    "Axioms, groups, induction, map — one possible sequence, and E l can vary."
                     if i == len(FILE_CHAIN) - 2
                     else None
                 ),
@@ -298,7 +297,7 @@ class TLFComposite(LociVoiceoverScene):
             Place(math(r"E_r", color=RELATED, size=16), at=Vec(3.15, 1.55), item_id="rlbl"),
             Place(r_arc, item_id="r1"),
             wait=MIN_WAIT,
-            narration="Related edges can jump anywhere — here, the last file back to the second.",
+            narration="Related edges can jump anywhere — here, from the last file back to the second.",
         )
 
         span.add(
@@ -308,7 +307,7 @@ class TLFComposite(LociVoiceoverScene):
                 item_id="law",
             ),
             wait=MIN_WAIT * 0.7,
-            narration="Fixed-node law: add l or r edges — nodes stay put. Only E g moves layout.",
+            narration="Fixed-node law: add l or r edges and nodes stay put — only E g moves layout.",
         )
 
         span.add(
@@ -321,7 +320,7 @@ class TLFComposite(LociVoiceoverScene):
             Place(math(r"C \Rightarrow K", color=BINDER, size=20), at=Vec(0, -3.65), item_id="ck"),
             wait=MIN_WAIT,
             narration=(
-                "TLF is C implies K. This repository is a TLF corpus: "
+                "So TLF is C implies K. This repository is itself a TLF corpus: "
                 "folders give E g, links give E l and E r."
             ),
         )

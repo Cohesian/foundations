@@ -119,22 +119,22 @@ class CarbonBinder(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "Carbon Binder. Let C denote a common binder — "
-                "an abstract interface that many concrete forms may implement."
+                "Carbon Binder. Here, C is our common binder — "
+                "an abstract interface that many concrete forms can implement."
             ),
         )
         span.add(PatchNodeStyle(hub.id, emphasis(BINDER)), wait=MIN_WAIT,
-                  narration="Any admitted form is written x colon C.")
+                  narration="Whenever we admit a form, we write it as x colon C.")
         branch_out(
             span, hub, kids, meta, root_color=BINDER,
             narrations=[
-                "Each concretion implements the same interface locally.",
+                "Each concretion, in turn, implements the same interface locally.",
                 None, None, None,
             ],
         )
         span.pause(
             wait=MIN_WAIT,
-            narration="One contract. Many concretions. The interface stays fixed.",
+            narration="So one contract, many concretions — and the interface itself stays fixed.",
         )
         self._play_g(span, g, ctx)
 
@@ -160,20 +160,20 @@ class CarbonBinder(LociVoiceoverScene):
             narration=(
                 "Composition is built from nodes and edges — a graph. "
                 "It need not be a tree or a DAG. "
-                "Here, a pipeline on the left, and a branching graph on the right."
+                "On the left, a pipeline; on the right, something that branches."
             ),
         )
         for i in range(1, len(pipe)):
             link_then_reveal(
                 span, pipe[i - 1], pipe[i], kind="binder", tex=r"C", color=BINDER,
                 ew=0.32, cw=0.28,
-                narration="A chain: each step has one successor." if i == 2 else None,
+                narration="On the left, a chain — each step has one successor." if i == 2 else None,
             )
         link_then_reveal(span, t_root, t_mid, kind="binder", tex=r"C", color=BINDER, ew=0.32, cw=0.28)
         link_then_reveal(span, t_root, t_r, kind="binder", tex=r"C", color=BINDER, ew=0.32, cw=0.28,
-                         narration="A branch: one node with several neighbours.")
+                         narration="On the right, a branch — one node with several neighbours.")
         link_then_reveal(span, t_r, t_end, kind="binder", tex=r"C", color=BINDER, ew=0.32, cw=0.28,
-                         narration="Every node here is still a concretion of C.")
+                         narration="And every node here is still a concretion of C.")
         self._play_g(span, g, ctx)
 
     # ------------------------------------------------------------------
@@ -213,13 +213,13 @@ class CarbonBinder(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "Two orthogonal ranks — independent growth directions. "
+                "Now, two orthogonal ranks — independent growth directions. "
                 "We draw depth on one branch and breadth on another; "
-                "the essential point is orthogonality, not the drawing orientation."
+                "what matters is orthogonality, not the drawing orientation."
             ),
         )
         grow_down(span, nodes, edges, "root", meta,
-                  narration="One graph shape with two independent directions.", mid=2)
+                  narration="One graph shape, with two independent directions.", mid=2)
         self._play_g(span, g, ctx)
 
         self._fade_scene()
@@ -234,19 +234,19 @@ class CarbonBinder(LociVoiceoverScene):
             wait=MIN_WAIT,
             narration=(
                 "Composite and decorator are orthogonal axes — "
-                "they follow different directions. "
-                "Horizontal and vertical are only our choice for this video."
+                "they grow in different directions. "
+                "Horizontal and vertical are simply our choice for this video."
             ),
         )
         ax.add(Place(hx, item_id="hx"), wait=MIN_WAIT,
-               narration="Composite: breadth, one-to-many containment.")
+               narration="Composite is breadth — one-to-many containment.")
         ax.add(Place(note("Comp", color=COMPOSITE, size=22), at=Vec(-0.8, -2.2), item_id="hxl"), wait=0.3)
         ax.add(Place(vy, item_id="vy"), wait=MIN_WAIT,
-               narration="Decorator: depth, one-around-one wrapping.")
+               narration="Decorator is depth — one-around-one wrapping.")
         ax.add(Place(note("Dec", color=DECORATOR, size=22), at=Vec(0.5, 0.35), item_id="vyl"), wait=MIN_WAIT)
         ax.pause(
             wait=MIN_WAIT,
-            narration="Composite and decorator are independent ranks, both over the same binder C.",
+            narration="Two independent ranks, both living over the same binder C.",
         )
         self._play_s(ax, stage, sctx)
 
@@ -266,18 +266,18 @@ class CarbonBinder(LociVoiceoverScene):
             wait=MIN_WAIT,
             narration=(
                 "C is the abstract interface. "
-                "A concrete form may present as a leaf L or as a composite Comp — "
-                "both are admitted as x colon C."
+                "A concrete form may present as a leaf L, or as a composite Comp — "
+                "and both are admitted as x colon C."
             ),
         )
         span.add(PatchNodeStyle(iface.id, emphasis(BINDER)), wait=MIN_WAIT)
         link_then_reveal(span, iface, leaf_n, kind="leaf", tex=r"L", color=LEAF,
                          narration="A leaf: L colon C.")
         link_then_reveal(span, iface, comp_n, kind="composite_box", tex=r"Comp", color=COMPOSITE,
-                         narration="A composite: Comp of children, still colon C.")
+                         narration="A composite: Comp of children — still colon C.")
         link_then_reveal(span, comp_n, c1, kind="binder", tex=r"C", color=BINDER, ew=0.3, cw=0.28)
         link_then_reveal(span, comp_n, c2, kind="binder", tex=r"C", color=BINDER, ew=0.3, cw=0.28,
-                         narration="Different shapes; the same admission contract.")
+                         narration="Different shapes, but the same admission contract.")
         self._play_g(span, g, ctx)
 
     # ------------------------------------------------------------------
@@ -298,7 +298,7 @@ class CarbonBinder(LociVoiceoverScene):
             narration=(
                 "Decorator growth wraps one component. "
                 "The result is still typed as C. "
-                "We show two equivalent pictures; the axis need not be vertical."
+                "We'll show two equivalent pictures — the axis need not be vertical."
             ),
         )
         span.add(
@@ -307,7 +307,7 @@ class CarbonBinder(LociVoiceoverScene):
             wait=MIN_WAIT,
         )
         span.add(Place(ring1, at=Vec(-3.2, 0.0), item_id="r1"), wait=MIN_WAIT,
-                 narration="Concentric rings: radius grows outward.")
+                 narration="Concentric rings — radius grows outward.")
         span.add(Restyle("r1", {"stroke_width": 4}), wait=0.3)
         span.add(Place(ring2, at=Vec(-3.2, 0.0), item_id="r2"), wait=MIN_WAIT,
                  narration="Dec of C — still colon C.")
@@ -324,7 +324,7 @@ class CarbonBinder(LociVoiceoverScene):
             Place(n1, at=Vec(pipe_x, 0.85), item_id="n1"),
             Place(math(r"n_1", color=DECORATOR, size=24), at=Vec(pipe_x, 1.35), item_id="n1l"),
             wait=MIN_WAIT,
-            narration="Alternatively, a vertical stack — one layout for depth.",
+            narration="Or, alternatively, a vertical stack — one layout for depth.",
         )
         span.add(Place(e12, item_id="e12"), wait=0.28)
         span.add(
@@ -337,7 +337,7 @@ class CarbonBinder(LociVoiceoverScene):
             Place(n3, at=Vec(pipe_x, -0.75), item_id="n3"),
             Place(math(r"C", color=BINDER, size=24), at=Vec(pipe_x, -1.25), item_id="n3l"),
             wait=MIN_WAIT,
-            narration="The innermost node is C. Orthogonality matters; the drawing direction does not.",
+            narration="The innermost node is C. Orthogonality matters — the drawing direction does not.",
         )
         span.add(
             Place(math(r"Dec(C) : C", color="#FFFFFF", size=26), at=Vec(0, -2.35), item_id="eq"),
@@ -359,7 +359,7 @@ class CarbonBinder(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "Structure can emerge through intertwinings — "
+                "Structure can also emerge through intertwinings — "
                 "not necessarily a tree. "
                 "Here, a cube drawn in two dimensions."
             ),
@@ -373,7 +373,7 @@ class CarbonBinder(LociVoiceoverScene):
         for i, (a, b) in enumerate(_CUBE_CROSS):
             cross = plain_segment(verts[a], verts[b], stroke_color=BINDER, stroke_width=1.6)
             span.add(Place(cross, item_id=f"x{i}"), wait=0.14,
-                     narration="Cross-links entwine the solid — this is not a tree." if i == 0 else None)
+                     narration="Cross-links entwine the solid — so this is not a tree." if i == 0 else None)
 
         # faint contract ring at each vertex — implicit interface wrap
         wrap = Circle(radius=0.34, style=patch_circle_style(
@@ -398,15 +398,15 @@ class CarbonBinder(LociVoiceoverScene):
             wait=MIN_WAIT,
             narration=(
                 "There is no central hub. "
-                "Each node answers the same contract locally and in a decentralized way. "
-                "You may interact with any of them."
+                "Each node answers the same contract locally, in a decentralized way — "
+                "and you may interact with any of them."
             ),
         )
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "The graph emerges from a common C contract — "
-                "pipeline, branch, composite, decorator, or entwined solid."
+                "So the graph emerges from a common C contract — "
+                "whether pipeline, branch, composite, decorator, or entwined solid."
             ),
         )
         self._play_s(span, stage, ctx)
@@ -421,19 +421,19 @@ class CarbonBinder(LociVoiceoverScene):
         ctx = SceneContext()
         register_graph(ctx, g)
         span = TickerSpan()
-        span.pause(wait=MIN_WAIT, narration="Domains may specialize the same abstract binder.")
+        span.pause(wait=MIN_WAIT, narration="In practice, domains may specialize the same abstract binder.")
         span.add(PatchNodeStyle(c.id, emphasis(BINDER)), wait=MIN_WAIT)
         link_then_reveal(span, c, t, kind="binder", tex=r"T", color=TYPE_B,
                          narration="C specializes to T — the type universe.")
         link_then_reveal(span, c, q, kind="binder", tex=r"Q", color=QUERY_B,
-                         narration="C specializes to Q — the query universe.")
+                         narration="And C specializes to Q — the query universe.")
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "Carbon Binder: abstract C as interface. "
+                "Carbon Binder in short: abstract C as interface. "
                 "Graphs compose from nodes and edges. "
                 "Orthogonal axes for composite and decorator. "
-                "Every concretion honours the same contract."
+                "And every concretion honours the same contract."
             ),
         )
         self._play_g(span, g, ctx)

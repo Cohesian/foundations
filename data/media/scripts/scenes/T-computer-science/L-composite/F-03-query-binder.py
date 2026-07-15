@@ -114,18 +114,18 @@ class QueryBinder(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "Query Binder. The binder pattern is not limited to types. "
-                "Here we specialize C to the query universe Q."
+                "Query Binder. The binder pattern is not limited to types — "
+                "here, we specialize C to the query universe Q."
             ),
         )
         span.add(PatchNodeStyle(c.id, emphasis(BINDER)), wait=MIN_WAIT)
         link_then_reveal(
             span, c, q, kind="binder", tex=r"Q", color=QUERY_B,
-            narration="C specializes to Q — the binder of predicates and query structure.",
+            narration="So C specializes to Q: the binder of predicates and query structure.",
         )
         span.pause(
             wait=MIN_WAIT,
-            narration="Any valid predicate form is written q colon Q. Q is the grouping surface.",
+            narration="Any valid predicate form is written q colon Q — Q is the grouping surface.",
         )
         self._play_g(span, g, ctx)
 
@@ -141,14 +141,14 @@ class QueryBinder(LociVoiceoverScene):
         span = TickerSpan()
         span.pause(
             wait=MIN_WAIT,
-            narration="Inside Q, two categories stay distinct — yet both belong to the same binder.",
+            narration="Inside Q, two categories stay distinct — yet both still belong to the same binder.",
         )
         span.add(PatchNodeStyle(root.id, emphasis(QUERY_B)), wait=MIN_WAIT,
-                  narration="Composite category c: group many predicates.")
+                  narration="First, composite category c: group many predicates.")
         link_then_reveal(span, root, c_hub, kind="grouping", tex=r"c", color=FAM_Q, ew=0.35, cw=0.3)
         link_then_reveal(
             span, root, d_hub, kind="grouping", tex=r"d", color=FAM_D,
-            narration="Decorator category d: wrap one inner predicate.",
+            narration="And decorator category d: wrap one inner predicate.",
         )
         self._play_g(span, g, ctx)
 
@@ -163,16 +163,16 @@ class QueryBinder(LociVoiceoverScene):
         ax.pause(
             wait=MIN_WAIT,
             narration=(
-                "c gives grouping geometry. d gives wrapper geometry. "
+                "c gives us grouping geometry; d gives us wrapper geometry. "
                 "They are orthogonal — independent ranks. "
-                "Direction is only our drawing choice."
+                "Direction is only how we chose to draw it."
             ),
         )
         ax.add(Place(cx, item_id="cx"), wait=MIN_WAIT, narration="Composite axis: and or or.")
         ax.add(Place(note("c", color=QUERY_B, size=22), at=Vec(-0.6, -2.0), item_id="cxl"), wait=0.3)
         ax.add(Place(dy, item_id="dy"), wait=MIN_WAIT, narration="Decorator axis: not wraps one Q.")
         ax.add(Place(note("d", color=DECORATOR, size=22), at=Vec(2.55, 0.5), item_id="dyl"), wait=MIN_WAIT)
-        ax.pause(wait=MIN_WAIT, narration="Orthogonal axes over one binder Q.")
+        ax.pause(wait=MIN_WAIT, narration="Two orthogonal axes, one binder Q.")
         self._play_s(ax, stage, sctx)
 
     # ------------------------------------------------------------------
@@ -186,7 +186,7 @@ class QueryBinder(LociVoiceoverScene):
 
         span.pause(
             wait=MIN_WAIT,
-            narration="Category d wraps one inner Q — same structure, many layouts.",
+            narration="Category d wraps one inner Q — same structure, many possible layouts.",
         )
         span.add(
             Place(note("radial", color=FAM_D, size=18), at=Vec(-2.8, 1.45), item_id="lbl"),
@@ -195,14 +195,14 @@ class QueryBinder(LociVoiceoverScene):
             wait=MIN_WAIT * 0.7,
         )
         span.add(Place(ring, at=Vec(-2.8, 0.0), item_id="nr"), wait=MIN_WAIT * 0.6,
-                 narration="Radial: n as a ring around the inner predicate.")
+                 narration="Radial view: n as a ring around the inner predicate.")
 
         px = 2.6
         e1 = plain_segment(Vec(px, 0.45), Vec(px, -0.35), stroke_color=FAM_D, stroke_width=2.5)
         span.add(
             Place(note("vertical stack", color=FAM_D, size=18), at=Vec(px, 1.45), item_id="plbl"),
             wait=MIN_WAIT * 0.5,
-            narration="Or stacked — radial, vertical, horizontal: direction is just notation.",
+            narration="Or stacked — again, direction is just notation.",
         )
         span.add(
             Place(note("n", color=FAM_D, size=22), at=Vec(px + 0.55, 0.45), item_id="pn"),
@@ -213,7 +213,7 @@ class QueryBinder(LociVoiceoverScene):
             Place(math(r"e", color=FAM_Q, size=22), at=Vec(px, -0.85), item_id="ptl"),
             wait=MIN_WAIT * 0.6,
         )
-        span.pause(wait=MIN_WAIT * 0.7, narration="Layout only — the nesting stays n of Q.")
+        span.pause(wait=MIN_WAIT * 0.7, narration="What matters is the nesting — it stays n of Q.")
         self._play_s(span, stage, ctx)
 
     # ------------------------------------------------------------------
@@ -256,24 +256,24 @@ class QueryBinder(LociVoiceoverScene):
 
         span.pause(
             wait=MIN_WAIT,
-            narration="The binder Q has a classification tree — categories, then concretes.",
+            narration="Now, the binder Q has a classification tree — first categories, then concretes.",
         )
         span.add(
             Place(note("□ category   ○ concrete", color=MUTED, size=17), at=Vec(4.3, 2.75), item_id="key"),
             wait=MIN_WAIT * 0.5,
         )
         span.add(PatchNodeStyle(root.id, emphasis(QUERY_B)), wait=MIN_WAIT,
-                  narration="Three categories under Q — leaf, composite, and decorator.")
+                  narration="Under Q, three categories — leaf, composite, and decorator.")
 
         link_then_reveal(span, root, ell, kind="grouping", tex=r"\ell", color=FAM_Q, ew=0.34, cw=0.3,
-                         narration="ℓ — leaf predicates: atomic tests.")
+                         narration="ℓ — leaf predicates, the atomic tests.")
         link_then_reveal(span, root, c, kind="grouping", tex=r"c", color=FAM_Q, ew=0.34, cw=0.3,
                          narration="c — composite grouping: and and or.")
         link_then_reveal(span, root, d, kind="grouping", tex=r"d", color=FAM_D, ew=0.34, cw=0.3,
                          narration="d — decorator wrapping: not.")
 
         link_then_reveal(span, ell, e, kind="concrete", tex=r"e", color=FAM_Q, ew=0.28, cw=0.24,
-                         narration="e equality, g greater-than, h contains.")
+                         narration="Under ℓ: e for equality, g for greater-than, h for contains.")
         link_then_reveal(span, ell, g_leaf, kind="concrete", tex=r"g", color=FAM_Q, ew=0.26, cw=0.22)
         link_then_reveal(span, ell, h, kind="concrete", tex=r"h", color=FAM_Q, ew=0.26, cw=0.22)
 
@@ -293,8 +293,8 @@ class QueryBinder(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "Categories are grouping unions in the grammar. "
-                "Concretes are the operators we actually pick."
+                "So categories are grouping unions in the grammar — "
+                "and concretes are the operators we actually pick."
             ),
         )
 
@@ -302,7 +302,7 @@ class QueryBinder(LociVoiceoverScene):
         for i, pos in enumerate(ring_positions):
             span.add(Place(contract_ring(QUERY_B), at=pos, item_id=f"ring{i}"), wait=0.07,
                       narration=(
-                          "Every node — category or concrete — still satisfies q colon Q."
+                          "And every node — category or concrete — still satisfies q colon Q."
                           if i == 0 else None
                       ))
 
@@ -341,7 +341,7 @@ class QueryBinder(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "One concrete query — shape on the left, "
+                "Let's read one concrete query — shape on the left, "
                 "category path on the right. Every step still binds to Q."
             ),
         )
@@ -355,7 +355,7 @@ class QueryBinder(LociVoiceoverScene):
             wait=MIN_WAIT * 0.4,
         )
         span.add(PatchNodeStyle(a_root.id, emphasis(QUERY_B)), wait=MIN_WAIT,
-                  narration="Chi: and of three branches — test, negation, and grouped alternative.")
+                  narration="Chi is an and of three branches — a test, a negation, and a grouped alternative.")
 
         link_then_reveal(span, a_root, e_status, kind="concrete", tex=r"e", color=FAM_Q, ew=0.28, cw=0.22)
         span.add(
@@ -368,7 +368,7 @@ class QueryBinder(LociVoiceoverScene):
         span.add(
             Place(math(r"Q \to d", color=FAM_D, size=19), at=Vec(FX, Y["n"]), item_id="f2"),
             wait=MIN_WAIT * 0.6,
-            narration="Not archived — decorator category d.",
+            narration="Not archived — that sits in decorator category d.",
         )
         link_then_reveal(span, n_wrap, e_arch, kind="concrete", tex=r"e", color=FAM_Q, ew=0.26, cw=0.2)
         span.add(
@@ -380,7 +380,7 @@ class QueryBinder(LociVoiceoverScene):
         span.add(
             Place(math(r"Q \to c", color=FAM_Q, size=19), at=Vec(FX, Y["o"]), item_id="f4"),
             wait=MIN_WAIT,
-            narration="Or branch — priority high, or score greater than ninety.",
+            narration="The or branch: priority high, or score greater than ninety.",
         )
         link_then_reveal(span, o_grp, e_prio, kind="concrete", tex=r"e", color=FAM_Q, ew=0.24, cw=0.2)
         link_then_reveal(span, o_grp, g_score, kind="concrete", tex=r"g", color=FAM_Q, ew=0.24, cw=0.2)
@@ -405,7 +405,7 @@ class QueryBinder(LociVoiceoverScene):
                 item_id="detail",
             ),
             wait=MIN_WAIT,
-            narration="The whole expression chi is still Q — one binder end to end.",
+            narration="The whole expression chi is still Q — one binder, end to end.",
         )
 
         all_pos = [
@@ -416,7 +416,7 @@ class QueryBinder(LociVoiceoverScene):
         span.add(Place(contract_ring(QUERY_B, radius=2.1), at=Vec(AX + 0.25, 1.85), item_id="big"),
                  wait=MIN_WAIT,
                  narration=(
-                     "Query Binder: same pattern as T — orthogonal categories, "
+                     "Query Binder in short: same pattern as T — orthogonal categories, "
                      "one surface, every form q colon Q."
                  ))
 

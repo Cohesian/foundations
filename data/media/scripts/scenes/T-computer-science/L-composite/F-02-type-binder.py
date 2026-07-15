@@ -119,18 +119,18 @@ class TypeBinder(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "Type Binder. Carbon Binder gave us abstract C. "
-                "Here we specialize it to the type universe T."
+                "Type Binder. Carbon Binder gave us abstract C — "
+                "and here, we specialize it to the type universe T."
             ),
         )
         span.add(PatchNodeStyle(c.id, emphasis(BINDER)), wait=MIN_WAIT)
         link_then_reveal(
             span, c, t, kind="binder", tex=r"T", color=TYPE_B,
-            narration="C specializes to T — the binder of the type system.",
+            narration="So C specializes to T: the binder of the type system.",
         )
         span.pause(
             wait=MIN_WAIT,
-            narration="Any admitted form is written X colon T. T is the grouping surface.",
+            narration="Any admitted form is written X colon T — T is the grouping surface.",
         )
         self._play_g(span, g, ctx)
 
@@ -146,14 +146,14 @@ class TypeBinder(LociVoiceoverScene):
         span = TickerSpan()
         span.pause(
             wait=MIN_WAIT,
-            narration="Inside T, two categories stay distinct — yet both belong to the same binder.",
+            narration="Inside T, two categories stay distinct — yet both still belong to the same binder.",
         )
         span.add(PatchNodeStyle(root.id, emphasis(TYPE_B)), wait=MIN_WAIT,
-                  narration="The type axis t: what shape — leaf or composite?")
+                  narration="First, the type axis t: what shape — leaf or composite?")
         link_then_reveal(span, root, t_hub, kind="grouping", tex=r"t", color=FAM_T, ew=0.35, cw=0.3)
         link_then_reveal(
             span, root, d_hub, kind="grouping", tex=r"d", color=FAM_D,
-            narration="The decorator axis d: what wrapper layers sit on top?",
+            narration="And the decorator axis d: what wrapper layers sit on top?",
         )
         self._play_g(span, g, ctx)
 
@@ -168,16 +168,16 @@ class TypeBinder(LociVoiceoverScene):
         ax.pause(
             wait=MIN_WAIT,
             narration=(
-                "t gives type geometry. d gives wrapper geometry. "
+                "t gives us type geometry; d gives us wrapper geometry. "
                 "They are orthogonal — independent ranks. "
-                "Left-right and up-down are only our drawing choice."
+                "Left-right and up-down are only how we chose to draw it."
             ),
         )
         ax.add(Place(tx, item_id="tx"), wait=MIN_WAIT, narration="Type axis: leaf or composite.")
         ax.add(Place(note("t", color=TYPE_B, size=22), at=Vec(-0.6, -2.0), item_id="txl"), wait=0.3)
         ax.add(Place(dy, item_id="dy"), wait=MIN_WAIT, narration="Decorator axis: wrap one inner T.")
         ax.add(Place(note("d", color=DECORATOR, size=22), at=Vec(2.55, 0.5), item_id="dyl"), wait=MIN_WAIT)
-        ax.pause(wait=MIN_WAIT, narration="Orthogonal axes over one binder T.")
+        ax.pause(wait=MIN_WAIT, narration="Two orthogonal axes, one binder T.")
         self._play_s(ax, stage, sctx)
 
     # ------------------------------------------------------------------
@@ -191,7 +191,7 @@ class TypeBinder(LociVoiceoverScene):
 
         span.pause(
             wait=MIN_WAIT,
-            narration="The d category wraps one inner T — same structure, many layouts.",
+            narration="The d category wraps one inner T — same structure, many possible layouts.",
         )
         span.add(
             Place(note("radial", color=FAM_D, size=18), at=Vec(-2.8, 1.45), item_id="lbl"),
@@ -209,7 +209,7 @@ class TypeBinder(LociVoiceoverScene):
         span.add(
             Place(note("vertical stack", color=FAM_D, size=18), at=Vec(px, 1.45), item_id="plbl"),
             wait=MIN_WAIT * 0.5,
-            narration="Or stacked vertically — radial, vertical, horizontal: direction is just notation.",
+            narration="Or stacked vertically — all of that is just notation, not the nesting itself.",
         )
         span.add(
             Place(note("r", color=FAM_D, size=22), at=Vec(px + 0.55, 0.85), item_id="pr"),
@@ -225,7 +225,7 @@ class TypeBinder(LociVoiceoverScene):
             wait=MIN_WAIT * 0.6,
         )
         span.pause(wait=MIN_WAIT * 0.7,
-                   narration="Layout only — the nesting stays d of T.")
+                   narration="What matters is the nesting — it stays d of T.")
         self._play_s(span, stage, ctx)
 
     # ------------------------------------------------------------------
@@ -273,14 +273,14 @@ class TypeBinder(LociVoiceoverScene):
 
         span.pause(
             wait=MIN_WAIT,
-            narration="The binder T has a classification tree — categories, then concretes.",
+            narration="Now, the binder T has a classification tree — first categories, then concretes.",
         )
         span.add(
             Place(note("□ category   ○ concrete", color=MUTED, size=17), at=Vec(4.3, 2.75), item_id="key"),
             wait=MIN_WAIT * 0.5,
         )
         span.add(PatchNodeStyle(root.id, emphasis(TYPE_B)), wait=MIN_WAIT,
-                  narration="Two main branches under T — type t and decorator d.")
+                  narration="From T, two main branches — type t and decorator d.")
 
         link_then_reveal(span, root, t, kind="grouping", tex=r"t", color=FAM_T, ew=0.34, cw=0.3,
                          narration="t groups type-shaped forms.")
@@ -288,7 +288,7 @@ class TypeBinder(LociVoiceoverScene):
                          narration="d groups wrapper-shaped forms.")
 
         span.add(Place(note(r"|", color=MUTED, size=20), at=Vec(-2.35, 1.45), item_id="u1"),
-                 wait=0.18, narration="Under t — a union: leaf l or composite c.")
+                 wait=0.18, narration="Under t, a union: leaf l or composite c.")
 
         link_then_reveal(span, t, l, kind="grouping", tex=r"l", color=FAM_T, ew=0.32, cw=0.28,
                          narration="l — the leaf category.")
@@ -299,7 +299,7 @@ class TypeBinder(LociVoiceoverScene):
             link_then_reveal(
                 span, l, leaves[key], kind="concrete", tex=key, color=FAM_T,
                 ew=0.26, cw=0.22,
-                narration="Concrete leaves: integer, float, bool, string." if idx == 0 else None,
+                narration="And the concrete leaves: integer, float, bool, string." if idx == 0 else None,
             )
 
         link_then_reveal(span, c, m, kind="concrete", tex=r"m", color=FAM_T, ew=0.26, cw=0.22,
@@ -308,7 +308,7 @@ class TypeBinder(LociVoiceoverScene):
                          narration="a — an array of T.")
 
         link_then_reveal(span, d, v, kind="concrete", tex=r"v", color=FAM_D, ew=0.28, cw=0.24,
-                         narration="Under d — v validator and r remover.")
+                         narration="Under d, we find v the validator and r the remover.")
         link_then_reveal(span, d, r, kind="concrete", tex=r"r", color=FAM_D, ew=0.28, cw=0.24)
 
         for asset, pos, item_id in legend_panel(
@@ -320,8 +320,8 @@ class TypeBinder(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "Categories are grouping unions in the grammar. "
-                "Concretes are the components we actually instantiate."
+                "So categories are grouping unions in the grammar — "
+                "and concretes are the components we actually instantiate."
             ),
         )
 
@@ -331,7 +331,7 @@ class TypeBinder(LociVoiceoverScene):
         for i, pos in enumerate(ring_positions):
             span.add(Place(contract_ring(TYPE_B), at=pos, item_id=f"ring{i}"), wait=0.07,
                       narration=(
-                          "Every node — category or concrete — still satisfies X colon T."
+                          "And every node — category or concrete — still satisfies X colon T."
                           if i == 0 else None
                       ))
 
@@ -371,7 +371,7 @@ class TypeBinder(LociVoiceoverScene):
         span.pause(
             wait=MIN_WAIT,
             narration=(
-                "One composed T shape — concretes on the left, "
+                "Let's read one composed T shape — concretes on the left, "
                 "category path on the right. Every step still binds to T."
             ),
         )
@@ -381,13 +381,13 @@ class TypeBinder(LociVoiceoverScene):
             wait=MIN_WAIT * 0.6,
         )
         span.add(PatchNodeStyle(top.id, emphasis(TYPE_B)), wait=MIN_WAIT,
-                  narration="A decorated map holding a decorated integer — all as T.")
+                  narration="Think of a decorated map holding a decorated integer — all as T.")
 
         link_then_reveal(span, top, r1, kind="concrete", tex=r"r", color=FAM_D, ew=0.26, cw=0.22)
         span.add(
             Place(math(r"T \to d", color=FAM_D, size=20), at=Vec(FX, Y["r1"]), item_id="f1"),
             wait=MIN_WAIT * 0.7,
-            narration="r and v sit in the d category.",
+            narration="Here, r and v sit in the d category.",
         )
         link_then_reveal(span, r1, v1, kind="concrete", tex=r"v", color=FAM_D, ew=0.24, cw=0.2)
 
@@ -396,14 +396,14 @@ class TypeBinder(LociVoiceoverScene):
             Place(math(r"T \to t \to c", color=FAM_T, size=19),
                   at=Vec(FX, Y["m"]), item_id="f2"),
             wait=MIN_WAIT,
-            narration="m sits in the composite category under t.",
+            narration="So m sits in the composite category under t.",
         )
 
         link_then_reveal(span, m, r2, kind="concrete", tex=r"r", color=FAM_D, ew=0.28, cw=0.22)
         span.add(
             Place(math(r"T \to d", color=FAM_D, size=20), at=Vec(FX, Y["r2"]), item_id="f3"),
             wait=MIN_WAIT * 0.7,
-            narration="Inside m, another decorated value — again category d.",
+            narration="Inside m, we nest another decorated value — again in category d.",
         )
         link_then_reveal(span, r2, v2, kind="concrete", tex=r"v", color=FAM_D, ew=0.24, cw=0.2)
         link_then_reveal(span, v2, i, kind="concrete", tex=r"i", color=FAM_T, ew=0.26, cw=0.22)
@@ -411,7 +411,7 @@ class TypeBinder(LociVoiceoverScene):
             Place(math(r"T \to t \to l", color=FAM_T, size=19),
                   at=Vec(FX, Y["i"]), item_id="f4"),
             wait=MIN_WAIT,
-            narration="Down to i — concrete leaf in category l.",
+            narration="And down to i — a concrete leaf in category l.",
         )
 
         span.add(
@@ -421,7 +421,7 @@ class TypeBinder(LociVoiceoverScene):
                 item_id="eq",
             ),
             wait=MIN_WAIT,
-            narration="Each node binds to the next T — one contract end to end.",
+            narration="Each node binds to the next T — one contract, end to end.",
         )
 
         all_pos = [Vec(SX, Y[k]) for k in ("T", "r1", "v1", "m")] + [
@@ -429,7 +429,7 @@ class TypeBinder(LociVoiceoverScene):
         ]
         span.add(Place(contract_ring(TYPE_B, radius=2.35), at=Vec(SX + 0.15, 0.35), item_id="big"),
                  wait=MIN_WAIT,
-                 narration="Type Binder: orthogonal categories, one surface — every form X colon T.")
+                 narration="Type Binder in short: orthogonal categories, one surface — every form X colon T.")
 
         for j, pos in enumerate(all_pos):
             span.add(Place(contract_ring(TYPE_B), at=pos, item_id=f"mr{j}"), wait=0.05)
