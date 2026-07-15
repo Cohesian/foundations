@@ -6,7 +6,8 @@ data:
     - md
   media:
     scripts:
-      - py
+      scenes:
+        - py
     videos:
       - mp4
 edges:

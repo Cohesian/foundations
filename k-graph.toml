@@ -1,12 +1,12 @@
 # K-graph resolution config.
 #
-# k-graph/ leaves declare abstract `data` (documents, media.scripts, media.videos).
-# This file defines INFRASTRUCTURE sources and which sources each data tree can reach.
+# k-graph/ leaves declare abstract `data` (documents, media.scripts.scenes, media.videos).
+# This file defines INFRASTRUCTURE sources (origin + mapping) and per-tree reachable sources.
 #
 # Each source declares:
 #   origin  — base domain or URL prefix (empty for local filesystem)
 #   mapping — path | hash
-#   pattern — how origin combines with path or hash (optional; sensible defaults)
+#   pattern — URL segment when origin is set, or hash URL template (mapping = hash)
 #   mapper  — hash-map file (required when mapping = hash); path relative to repo root
 
 [infrastructure.local]
@@ -28,7 +28,7 @@ mapper = "maps/youtube.toml"
 [data.documents]
 sources = ["local"]  # , "s3bucket"
 
-[data.media.scripts]
+[data.media.scripts.scenes]
 sources = ["local"]
 
 [data.media.videos]

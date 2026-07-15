@@ -34,7 +34,7 @@ Every node has **edges** (`g` grouping, `l` linear, `r` related). Leaves additio
 ```
 k-graph/              ← structure
 data/documents/       ← .md, .ipynb
-data/media/scripts/   ← .py scenes
+data/media/scripts/scenes/  ← .py scenes (media.scripts.scenes in leaf yaml)
 data/media/videos/    ← .mp4 (gitignored; routed via maps/)
 ```
 

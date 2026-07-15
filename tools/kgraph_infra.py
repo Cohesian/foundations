@@ -47,7 +47,13 @@ def sources(tree_spec: dict) -> list[str]:
 
 
 def infra_cfg(cfg: dict, source: str) -> dict:
-    return cfg.get("infrastructure", {}).get(source, {})
+    """Resolve dotted source names, e.g. local.scenes -> [infrastructure.local.scenes]."""
+    node = cfg.get("infrastructure", {})
+    for part in source.split("."):
+        if not isinstance(node, dict):
+            return {}
+        node = node.get(part)
+    return node if isinstance(node, dict) else {}
 
 
 def mapper_path(infra: dict) -> str:
@@ -58,15 +64,25 @@ def mapper_path(infra: dict) -> str:
 
 
 def default_ext(tree: str) -> str:
-    if tree == "media.videos":
+    parts = tree.split(".")
+    if "videos" in parts:
         return "mp4"
-    if tree == "media.scripts":
+    if "scripts" in parts:
         return "py"
     return ""
 
 
 def rel_path(root: str, key: str, ext: str) -> str:
     return f"{root}/{key}.{ext}"
+
+
+def fs_path(infra: dict, root: str, key: str, ext: str) -> str:
+    """Repo-relative filesystem path: ``{root}/{key}.{ext}``."""
+    return rel_path(root, key, ext)
+
+
+def is_local_fs(infra: dict) -> bool:
+    return infra.get("mapping", "path") == "path" and not infra.get("origin", "")
 
 
 def load_hash_map(path: str) -> dict[str, Any]:
@@ -124,7 +140,7 @@ def resolve(
     ext = ext or default_ext(tree) or "md"
 
     if mapping == "path":
-        path = rel_path(root, key, ext)
+        path = fs_path(infra, root, key, ext)
         origin = infra.get("origin", "")
         if not origin:
             return ROOT / path

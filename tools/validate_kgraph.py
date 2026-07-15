@@ -8,7 +8,7 @@ Layout:
 
 Checks per node:
 - composite edges.g / edges.l / edges.r resolve;
-- path + local source: file on disk (videos/mp4 and scripts/py optional — gitignored or not yet produced);
+- path + local filesystem source: file on disk (videos/mp4 optional — gitignored builds);
 - hash source: map file contains hash/ref for the key.
 """
 from __future__ import annotations
@@ -24,12 +24,13 @@ except ModuleNotFoundError:
 from kgraph_infra import (
     CONFIG,
     ROOT,
+    fs_path,
     hash_for_key,
     infra_cfg,
+    is_local_fs,
     load_config,
     mapper_path,
     node_key,
-    rel_path,
     sources,
     tree_cfg,
     tree_root,
@@ -37,7 +38,7 @@ from kgraph_infra import (
 
 TREE = ROOT / "k-graph"
 
-PATH_OPTIONAL = frozenset({"data.media.videos", "data.media.scripts"})
+PATH_OPTIONAL = frozenset({"data.media.videos"})
 
 problems: list[str] = []
 
@@ -57,10 +58,22 @@ def iter_data_entries(data: dict) -> list[tuple[str, list[str]]]:
     media = data.get("media") or {}
     if not isinstance(media, dict):
         return out
-    for branch in ("scripts", "videos"):
-        exts = media.get(branch)
-        if exts is not None:
-            out.append((f"data.media.{branch}", exts if isinstance(exts, list) else [exts]))
+    scripts = media.get("scripts")
+    if scripts is not None:
+        if isinstance(scripts, dict):
+            for sub, exts in scripts.items():
+                out.append((
+                    f"data.media.scripts.{sub}",
+                    exts if isinstance(exts, list) else [exts],
+                ))
+        else:
+            out.append((
+                "data.media.scripts",
+                scripts if isinstance(scripts, list) else [scripts],
+            ))
+    videos = media.get("videos")
+    if videos is not None:
+        out.append(("data.media.videos", videos if isinstance(videos, list) else [videos]))
     return out
 
 
@@ -118,14 +131,14 @@ def check_data(leaf: Path, node: dict, rel: Path, cfg: dict):
                 continue
             mapping = infra.get("mapping", "path")
 
-            if mapping == "path" and src == "local":
+            if mapping == "path" and is_local_fs(infra):
                 for ext in exts:
-                    target = ROOT / rel_path(root, key, ext)
+                    target = ROOT / fs_path(infra, root, key, ext)
                     if target.exists():
                         continue
                     if tree_key in PATH_OPTIONAL:
                         continue
-                    err(leaf, f"{tree_key} local [{ext}] -> missing {target.relative_to(ROOT)}")
+                    err(leaf, f"{tree_key} [{src}] [{ext}] -> missing {target.relative_to(ROOT)}")
 
             elif mapping == "hash":
                 try:
