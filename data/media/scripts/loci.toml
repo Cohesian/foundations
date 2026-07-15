@@ -1,0 +1,20 @@
+# Copy to loci.toml in your project root.
+# One file for video + voiceover. Works with loci-render and plain manim.
+
+disable_caching = true   # recommended when using voiceover
+preview = false
+
+[video]
+quality = "l"          # l | m | h  →  manim -ql / -qm / -qh
+fps = 30               # optional; omit to use the quality preset
+
+[audio]
+service = "gtts"         # pyttsx3 | gtts | openai | …  (use gtts if pyttsx3 hangs)
+subcaptions = true
+
+[audio.gtts]
+lang = "en"
+
+[audio.openai]
+voice = "alloy"
+model = "tts-1-hd"
