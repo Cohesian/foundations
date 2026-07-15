@@ -9,5 +9,5 @@ preview:  ## fast local preview
 test:     ## quick render, no preview
 	loci-render $(SCENE) $(CLASS) -vq l --no-preview
 
-prod:     ## higher quality export
-	loci-render $(SCENE) $(CLASS) -vq h --no-preview
+prod-hd:     ## higher quality export
+	loci-render $(SCENE) $(CLASS) -vq h -vf 60 -as openai -ao voice=alloy,model=tts-1-hd
