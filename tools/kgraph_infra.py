@@ -28,7 +28,7 @@ def node_key(rel: Path, node_id: str) -> str:
 
 
 def tree_cfg(cfg: dict, tree: str) -> dict | None:
-    """tree e.g. 'documents', 'media.loci', 'media.videos'."""
+    """tree e.g. 'documents', 'media.scripts', 'media.videos'."""
     node = cfg.get("data", {})
     for part in tree.split("."):
         if not isinstance(node, dict):
@@ -60,7 +60,7 @@ def mapper_path(infra: dict) -> str:
 def default_ext(tree: str) -> str:
     if tree == "media.videos":
         return "mp4"
-    if tree == "media.loci":
+    if tree == "media.scripts":
         return "py"
     return ""
 

@@ -1,6 +1,6 @@
 # K-graph resolution config.
 #
-# k-graph/ leaves declare abstract `data` (documents, media.loci, media.videos).
+# k-graph/ leaves declare abstract `data` (documents, media.scripts, media.videos).
 # This file defines INFRASTRUCTURE sources and which sources each data tree can reach.
 #
 # Each source declares:
@@ -28,7 +28,7 @@ mapper = "maps/youtube.toml"
 [data.documents]
 sources = ["local"]  # , "s3bucket"
 
-[data.media.loci]
+[data.media.scripts]
 sources = ["local"]
 
 [data.media.videos]

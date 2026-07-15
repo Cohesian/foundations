@@ -8,7 +8,7 @@ Layout:
 
 Checks per node:
 - composite edges.g / edges.l / edges.r resolve;
-- path + local source: file on disk (videos/mp4 optional — gitignored builds);
+- path + local source: file on disk (videos/mp4 and scripts/py optional — gitignored or not yet produced);
 - hash source: map file contains hash/ref for the key.
 """
 from __future__ import annotations
@@ -37,7 +37,7 @@ from kgraph_infra import (
 
 TREE = ROOT / "k-graph"
 
-PATH_OPTIONAL = frozenset({"data.media.videos"})
+PATH_OPTIONAL = frozenset({"data.media.videos", "data.media.scripts"})
 
 problems: list[str] = []
 
@@ -57,7 +57,7 @@ def iter_data_entries(data: dict) -> list[tuple[str, list[str]]]:
     media = data.get("media") or {}
     if not isinstance(media, dict):
         return out
-    for branch in ("loci", "videos"):
+    for branch in ("scripts", "videos"):
         exts = media.get(branch)
         if exts is not None:
             out.append((f"data.media.{branch}", exts if isinstance(exts, list) else [exts]))

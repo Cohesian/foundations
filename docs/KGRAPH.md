@@ -16,7 +16,7 @@ foundations/
   data/
     documents/          ← .md and .ipynb
     media/
-      loci/             ← .py scene scripts (source of truth, committed)
+      scripts/          ← .py scene scripts (source of truth, committed)
       videos/           ← .mp4 builds (gitignored); hash maps live in maps/ at repo root
 ```
 
@@ -44,7 +44,7 @@ Content files carry **no frontmatter or metadata** — they are pure content. Al
 | `Fd` | File (leaf, draft) | `Fd-<slug>.yaml` |
 
 - **Composites** (`T`, `L`) may nest any mixture of `T`, `L`, `F`, and `Fd`.
-- **Leaves** (`F`, `Fd`) are data-agnostic — id is `F-01-function`, not `F-01-function.md`. The same node can hold documents, a loci scene, and a render.
+- **Leaves** (`F`, `Fd`) are data-agnostic — id is `F-01-function`, not `F-01-function.md`. The same node can hold documents, a scene script, and a render.
 
 ---
 
@@ -77,12 +77,12 @@ edges:
   r: []
 ```
 
-A leaf with documents, a loci scene, and a video:
+A leaf with documents, a scene script, and a video:
 
 ```yaml
 data:
   media:
-    loci:
+    scripts:
       - py
     videos:
       - mp4
@@ -140,7 +140,7 @@ mapper = "maps/youtube.toml"
 [data.documents]
 sources = ["local"]  # , "s3bucket"
 
-[data.media.loci]
+[data.media.scripts]
 sources = ["local"]
 
 [data.media.videos]
@@ -202,7 +202,7 @@ python tools/validate_kgraph.py   # requires pyyaml
 Each exploration is a single leaf node (`F` or `Fd`) that may expose the same idea in several trees, listed in its `data` block.
 
 - **Documents** (`data/documents/`) — `.md` papers readable without running code; `.ipynb` notebooks for interactive work.
-- **Loci** (`data/media/loci/`) — `.py` scene scripts: the lazy source of a video.
+- **Scripts** (`data/media/scripts/`) — `.py` scene scripts: the lazy source of a video.
 - **Videos** (`data/media/videos/`) — `.mp4` local builds (path mapping) or infra-projected URLs (hash mapping via `maps/youtube.toml`).
 
 Prefer **`F-*`** for production-ready material; use **`Fd-*`** for intentional drafts. Data is additive: a node starts with whatever exists and gains more over time.
