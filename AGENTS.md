@@ -1,8 +1,10 @@
-# Internalize: foundations
+# Foundations agent guidance
 
-Semantic seed for this repo — a compact map before or after reading the docs.
+Read this file before modifying repository structure, corpus content, or tooling.
 
 **foundations** is a Cohesian knowledge corpus: papers, notebooks, and media about how ideas bind, compose, transform, and share structure across math, computation, and visualization.
+
+This file is an orientation guide, not the complete specification. Use the task-specific reading routes below.
 
 ---
 
@@ -10,14 +12,11 @@ Semantic seed for this repo — a compact map before or after reading the docs.
 
 | Path | What it gives you |
 |------|-------------------|
+| `README.md` | Repo entry point |
 | `docs/README.md` | Doc index |
 | `docs/COHESIAN.md` | Lens — cohesion, composition, binding, invariants, perspective |
 | `docs/KGRAPH.md` | Disk layout — structure + content trees |
-| `docs/PRINCIPLES.md` | How explorations are written |
-| `docs/EXPLORATIONS.md` | Human index of topics/leaves |
-| `README.md` | Repo entry point |
-
-Formal TLF model: `data/documents/T-computer-science/L-composite/F-04-TLF-composite.md`.
+| `docs/EXPLORATIONS.md` | Human index of topics/leaves (no need to read each file on the k-graph and parallel data trees)|
 
 ---
 
@@ -34,7 +33,7 @@ Every node has **edges** (`g` grouping, `l` linear, `r` related). Leaves additio
 ```
 k-graph/              ← structure
 data/documents/       ← .md, .ipynb
-data/media/loci/      ← .py scenes
+data/media/scripts/scenes/  ← .py scenes (media.scripts.scenes in leaf yaml)
 data/media/videos/    ← .mp4 (gitignored; routed via maps/)
 ```
 

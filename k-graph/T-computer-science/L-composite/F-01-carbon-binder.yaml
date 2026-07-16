@@ -5,8 +5,9 @@ data:
   documents:
     - md
   media:
-    loci:
-      - py
+    scripts:
+      scenes:
+        - py
     videos:
       - mp4
 edges:

@@ -12,8 +12,9 @@ For every node in `k-graph/` it verifies:
 - **edges resolve** — each `edges.g` (grouping children), `edges.l` (linear
   `prev` / `next`), and `edges.r` (related) target points to a real sibling node;
 - **content resolves** — each leaf's `data` tree lists `sources` in
-  [`k-graph.toml`](../k-graph.toml); local `path` sources must have files on disk
-  where required; `hash` sources must have map entries; local mp4 builds optional;
+  [`k-graph.toml`](../k-graph.toml); local filesystem sources must have files on disk
+  where required (scripts committed; local mp4 builds optional); `hash` sources must
+  have map entries;
 - **kinds match location** — `T` / `L` use `props.yaml` in a directory; `F` / `Fd`
   are `<id>.yaml` leaves.
 
@@ -33,6 +34,7 @@ Projects a k-graph key through a source (for debugging / site wiring):
 
 ```bash
 python tools/resolve_kgraph.py media.videos T-computer-science/L-composite/F-01-carbon-binder
+python tools/resolve_kgraph.py media.scripts.scenes T-computer-science/L-composite/F-01-carbon-binder
 python tools/resolve_kgraph.py media.videos T-computer-science/L-composite/F-01-carbon-binder --source local
 ```
 

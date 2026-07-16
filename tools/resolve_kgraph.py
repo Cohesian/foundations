@@ -17,7 +17,7 @@ def main(argv: list[str] | None = None) -> int:
     import argparse
 
     parser = argparse.ArgumentParser(description="Resolve a k-graph data key")
-    parser.add_argument("tree", help="e.g. media.videos, documents, media.loci")
+    parser.add_argument("tree", help="e.g. media.videos, documents, media.scripts.scenes")
     parser.add_argument("key", help="k-graph key, e.g. T-cs/L-composite/F-01-carbon-binder")
     parser.add_argument("--source", help="infra source name (default: tree serve)")
     parser.add_argument("--ext", help="file extension override for path mapping")

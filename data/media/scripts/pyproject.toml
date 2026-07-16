@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scripts"
+version = "0.1.0"
+description = "Loci animation project"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "loci[voiceover] @ git+ssh://git@github.com/Cohesian/loci.git@v1.0.3",
+    "gtts>=2.5",
+]
+
+[tool.setuptools]
+py-modules = []

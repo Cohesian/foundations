@@ -16,18 +16,22 @@ foundations/
   data/
     documents/          ← .md and .ipynb
     media/
-      loci/             ← .py scene scripts (source of truth, committed)
+      scripts/          ← loci project root
+        scenes/         ← .py scene scripts (declared as media.scripts.scenes in leaf yaml)
       videos/           ← .mp4 builds (gitignored); hash maps live in maps/ at repo root
 ```
 
-All trees share the **same relative path** as the node inside `k-graph/`. A node's content is found by convention:
+Documents, scene scripts, and videos all follow the same rule — the **data tree path mirrors the yaml key**:
 
 ```
 <tree-root>/<same relative path>/<node-id>.<ext>
 ```
 
+Nested keys under `media.scripts` become nested dirs — e.g. `scripts.scenes` → `data/media/scripts/scenes/`.
+
 So `k-graph/T-math/L-division/F-01-introduction.yaml` has its document at
-`data/documents/T-math/L-division/F-01-introduction.md`, and (once produced) its
+`data/documents/T-math/L-division/F-01-introduction.md`, its script at
+`data/media/scripts/scenes/T-math/L-division/F-01-introduction.py`, and (once produced) its
 render at `data/media/videos/T-math/L-division/F-01-introduction.mp4`.
 
 Content files carry **no frontmatter or metadata** — they are pure content. All metadata lives in `k-graph/`.
@@ -44,7 +48,7 @@ Content files carry **no frontmatter or metadata** — they are pure content. Al
 | `Fd` | File (leaf, draft) | `Fd-<slug>.yaml` |
 
 - **Composites** (`T`, `L`) may nest any mixture of `T`, `L`, `F`, and `Fd`.
-- **Leaves** (`F`, `Fd`) are data-agnostic — id is `F-01-function`, not `F-01-function.md`. The same node can hold documents, a loci scene, and a render.
+- **Leaves** (`F`, `Fd`) are data-agnostic — id is `F-01-function`, not `F-01-function.md`. The same node can hold documents, a scene script, and a render.
 
 ---
 
@@ -77,13 +81,14 @@ edges:
   r: []
 ```
 
-A leaf with documents, a loci scene, and a video:
+A leaf with documents, a scene script, and a video:
 
 ```yaml
 data:
   media:
-    loci:
-      - py
+    scripts:
+      scenes:
+        - py
     videos:
       - mp4
 ```
@@ -140,7 +145,7 @@ mapper = "maps/youtube.toml"
 [data.documents]
 sources = ["local"]  # , "s3bucket"
 
-[data.media.loci]
+[data.media.scripts.scenes]
 sources = ["local"]
 
 [data.media.videos]
@@ -152,10 +157,11 @@ serve = "youtube"
 
 | Kind | Resolve | Example |
 |------|---------|---------|
-| `path` | `origin` + `pattern` with `{path}` | local: repo file |
+| `path` | `<tree-root>/<k-graph-key>.<ext>` | local repo file |
+| `path` + `origin` | `origin` + `pattern` with `{path}` | S3 URL |
 | `hash` | lookup key in infra `mapper` → `origin` + `pattern` with `{hash}` | YouTube watch URL |
 
-Path segment is always `<tree-root>/<k-graph-key>.<ext>` (tree root derived from tree name).
+Tree root is derived from the data tree name (`media.scripts.scenes` → `data/media/scripts/scenes/`).
 
 Hash map (`maps/youtube.toml`, referenced by `[infrastructure.youtube]`):
 
@@ -168,6 +174,7 @@ Change `hash` when a video moves — leaf yaml untouched.
 
 ```bash
 python tools/resolve_kgraph.py media.videos T-computer-science/L-composite/F-01-carbon-binder
+python tools/resolve_kgraph.py media.scripts.scenes T-computer-science/L-composite/F-01-carbon-binder
 python tools/resolve_kgraph.py media.videos T-computer-science/L-composite/F-01-carbon-binder --source local
 ```
 
@@ -178,7 +185,7 @@ python tools/resolve_kgraph.py media.videos T-computer-science/L-composite/F-01-
 `tools/validate_kgraph.py` checks the whole k-graph:
 
 - every `edges.g` / `edges.l` / `edges.r` target resolves to a real sibling node;
-- path + local source: local files on disk (videos/mp4 optional — gitignored builds);
+- path + local filesystem source: files on disk (scripts required; videos/mp4 optional — gitignored builds);
 - hash source: map file contains `hash` (or `ref`) for each key that declares the tree.
 
 ```bash
@@ -190,6 +197,7 @@ python tools/validate_kgraph.py   # requires pyyaml
 ## Repository metadata (not k-graph nodes)
 
 - `README.md` — entry point (renders on GitHub)
+- `AGENTS.md` — onboarding map for agents (compact orientation for the repo)
 - `docs/` — project documentation
 - `k-graph.toml` — infrastructure sources + per-tree reachable sources
 - `tools/` — validator + `resolve_kgraph.py`
@@ -202,7 +210,7 @@ python tools/validate_kgraph.py   # requires pyyaml
 Each exploration is a single leaf node (`F` or `Fd`) that may expose the same idea in several trees, listed in its `data` block.
 
 - **Documents** (`data/documents/`) — `.md` papers readable without running code; `.ipynb` notebooks for interactive work.
-- **Loci** (`data/media/loci/`) — `.py` scene scripts: the lazy source of a video.
+- **Scripts** (`data/media/scripts/scenes/`) — `.py` scene scripts; declared as `media.scripts.scenes` in leaf yaml.
 - **Videos** (`data/media/videos/`) — `.mp4` local builds (path mapping) or infra-projected URLs (hash mapping via `maps/youtube.toml`).
 
 Prefer **`F-*`** for production-ready material; use **`Fd-*`** for intentional drafts. Data is additive: a node starts with whatever exists and gains more over time.
