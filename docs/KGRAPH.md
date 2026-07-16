@@ -197,6 +197,7 @@ python tools/validate_kgraph.py   # requires pyyaml
 ## Repository metadata (not k-graph nodes)
 
 - `README.md` — entry point (renders on GitHub)
+- `AGENTS.md` — onboarding map for agents (compact orientation for the repo)
 - `docs/` — project documentation
 - `k-graph.toml` — infrastructure sources + per-tree reachable sources
 - `tools/` — validator + `resolve_kgraph.py`

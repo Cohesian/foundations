@@ -30,10 +30,6 @@ outputs/
 tmp/
 temp/
 
-# Local-only notes (rollout plans, PR drafts) — see .changes/README.md
-.changes/*
-!.changes/README.md
-
 # K-graph videos — mp4 binaries live in a bucket / on YouTube, not in git.
 # Leaf yaml declares media.videos; k-graph.toml routes outgo per infra.
 data/media/videos/**/*.mp4
