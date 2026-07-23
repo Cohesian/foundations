@@ -6,6 +6,13 @@ Read this file before modifying repository structure, corpus content, or tooling
 
 This file is an orientation guide, not the complete specification. Use the task-specific reading routes below.
 
+## Core inheritance
+
+Foundations follows [Cohesian Core principles v0.1.0](../core/PRINCIPLES.md).
+Here, the structural lens guides relations across the knowledge graph without
+collapsing distinct fields into one model. [`docs/COHESIAN.md`](docs/COHESIAN.md)
+is this repository's local interpretation, not a replacement for Core.
+
 ---
 
 ## Read first
